@@ -1,4 +1,4 @@
-*Translated from http://developer.android.com/intl/zh-cn/about/versions/android-5.0-changes.html*
+*Translated from http://developer.android.com/intl/zh-cn/about/versions/android-5.0-changes.html —— By [NashLegend](https://github.com/NashLegend)*
 
 ### API Level: 21 ###
 
