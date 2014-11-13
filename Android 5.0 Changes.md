@@ -30,13 +30,13 @@ Android 5.0 Changes
 ## 通知 ##
 请确保你的通知将Android 5.0的最新变化考虑了进来，要获知更多如何为Android 5.0以及更高版本系统设计你的通知的信息，请看[这里](http://developer.android.com/design/patterns/notifications.html)
 
-**Material design样式**
+###Material design样式###
 
 通知使用深色文字以及白色（或者很浅色）的背景以适配material design样式的桌面插件。请确保你的所有通知样式统一，如果你的通知看起来有问题，请修正它们:
 - 使用 [setColor()](http://developer.android.com/reference/android/app/Notification.Builder.html#setColor(int))设置通知图标的背景（基准）色。
 - 修改或者移除包含颜色的资源。系统在action icons和通知栏图标中了忽略所有非透明通道。你应该认为这些图标只有alpha通道。系统会把通知图标绘制到白色背景，把action icons绘制到深灰色背景。
 
-**声音和震动**
+###声音和震动###
 
 如果你现在在通知里通过Ringtone, MediaPlayer, or Vibrator 类添加了声音和震动，请移除这些代码以便系统能够以优先模式正确的执行声音和震动行为。你应该使用Notification.Builder方法添加声音和震动才对。
 
@@ -44,17 +44,17 @@ Android 5.0 Changes
 
 以前Android使用[STREAM_MUSIC](http://http://developer.android.com/reference/android/media/AudioManager.html#STREAM_MUSIC)作为master stream以控制平板设备的音量。在Android 5.0上，平板和手机设备的master volume stream已经统一了起来，[由STREAM_RING](http://http://developer.android.com/reference/android/media/AudioManager.html#STREAM_RING) 或者 [STREAM_NOTIFICATION](http://developer.android.com/reference/android/media/AudioManager.html#STREAM_NOTIFICATION)控制。
 
-**锁屏可视性**
+###锁屏可见性###
 
 现在，默认情况下，通知将显示在用户的锁屏界面上，用户出于保护隐私可以选择不展示这些信息，系统会使用其他提示来表示通知的文字内容，如果想自定义这些隐私化的文字，请使用[setPublicVersion()](http://developer.android.com/reference/android/app/Notification.Builder.html#setPublicVersion(android.app.Notification))方法
 
 如果通知不包含私人信息或者你想要允许在通知上控制媒体，请调用 [setVisibility()](http://developer.android.com/reference/android/app/Notification.Builder.html#setVisibility(int))方法并奖通知的可见级别设置为[VISIBILITY_PUBLIC](http://developer.android.com/reference/android/app/Notification.html#VISIBILITY_PUBLIC)
 
-**媒体播放**
+###媒体播放###
 
 如果你使用展示和控制媒体播放的通知，请考虑使用最新的[Notification.MediaStyle](http://developer.android.com/reference/android/app/Notification.MediaStyle.html)模版以取代自定义的[RemoteViews.RemoteView](http://developer.android.com/reference/android/widget/RemoteViews.RemoteView.html)对象，无论你使用哪种方法，确保通知的可见性为[VISIBILITY_PUBLIC](http://developer.android.com/reference/android/app/Notification.html#VISIBILITY_PUBLIC)，这样你可以在锁屏界面进行控制。请注意，自Android 5.0以后，系统不会将RemoteControlClient对象展示在锁屏界面上，要获知更多信息，请查看[如果你的app使用了RemoteControlClient](http://developer.android.com/intl/zh-cn/about/versions/android-5.0-changes.html#BehaviorMediaControl)（其实就在下面）
 
-**浮动通知**
+###浮动通知###
 
 现在通知可以以一个悬浮小窗口的形式出现了，当然设备得是未锁屏且点亮屏幕状态。这些通知看起来像是你的通知的精简版一样，除了这些通知也可以使用action buttons。用户可以在当前正在使用的app里面选择执行也可以忽略通知动作而不必离开当前app。
 
@@ -106,15 +106,14 @@ Android 5.0 改变了app的默认行为。
 
 Android系统同时引入了一种新特性以确保一个特定的自定义permissions只能被一个app定义，除非其他app有相同的签名。
 
-**对于那些使用相同的自定义permissions的APP们**
+###对于那些使用相同的自定义permissions的APP们###
 
 任何app都可以自定义任何permissions，所以有可能不同的app正好使用了重名的自定义permissions。比如两个有相似功能的app就有可能这么干，或者App们可能会引入拥有相同的自定义权限的公共库或者代码示例。
 
 在Android 4.4之前这样做是没有问题的。从Android 5.0开始，系统加入了**不同签名的应用的自定义权限必有具有唯一性**的限制，如果用户想要安装一个**拥有和某个已安装app有相同自定义权限但是签名不同**的app，系统将禁止安装。
 
-**Considerations for your app**
+###Considerations for your app###
 
-In Android 5.0 and later, apps can continue to define their own custom permissions just as before and to request custom permissions from other apps through the <uses-permission> mechanism. However with the new requirement introduced in Android 5.0, you should carefully assess possible impacts on your app.
 Android 5.0以后，app仍然可以像以前一样自定义permissions和通过<uses-permission>请求其他app的权限。但是有了现在的限制之后，你应该认真考虑一下这些变化对你的app的影响。
 
 下面几点是你要考虑的:
