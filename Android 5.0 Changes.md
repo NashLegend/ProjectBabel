@@ -37,7 +37,7 @@
 
 如果你现在在通知里通过Ringtone, MediaPlayer, or Vibrator 类添加了声音和震动，请移除这些代码以便系统能够以优先模式正确的执行声音和震动行为。你应该使用Notification.Builder方法添加声音和震动才对。
 
-将设备设置为静音模式将使设备进入这种新的优先模式。如果你将设备设置为普通模式或者震动模式，设置将离开这种优先模式。
+将设备设置为静音模式将使设备进入这种新的优先模式(?)。如果你将设备设置为普通模式或者震动模式，设备将退出这种优先模式(?)。
 
 以前Android使用[STREAM_MUSIC](http://http://developer.android.com/reference/android/media/AudioManager.html#STREAM_MUSIC)作为master stream以控制平板设备的音量。在Android 5.0上，平板和手机设备的master volume stream已经统一了起来，[由STREAM_RING](http://http://developer.android.com/reference/android/media/AudioManager.html#STREAM_RING) 或者 [STREAM_NOTIFICATION](http://developer.android.com/reference/android/media/AudioManager.html#STREAM_NOTIFICATION)控制。
 
