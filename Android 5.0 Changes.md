@@ -1,3 +1,5 @@
+*Translated from http://developer.android.com/intl/zh-cn/about/versions/android-5.0-changes.html*
+
 ### API Level: 21 ###
 
 除了新增特性和功能之外，Android 5.0还包含了一系列的变化，包括API变化、行为变化，系统增强以及bug修复。这篇文档将重点阐述一些你应该知道并应用到你的app里面的关键的变化。
@@ -75,6 +77,90 @@ Android 5.0提供了一个新的[Notification.MediaStyle](http://developer.andro
 随着Android 5.0 concurrent documents and activities tasks特性的引入，ActivityManager.getRecentTasks()方法被废弃以保护用户隐私。为了后向兼容性，这个方法仍然后返回一小部分结果，比如调用此方法的应用的的task以及一些非敏感任务（比如桌面）。如果你的app使用这个方法获得自身的task的话，请使用[getAppTasks()](http://developer.android.com/reference/android/app/ActivityManager.html#getAppTasks())
 
 ## Android NDK的64位支持 ##
-Android 5.0 introduces support for 64-bit systems. The 64-bit enhancement increases address space and improves performance, while still supporting existing 32-bit apps fully. The 64-bit support also improves the performance of OpenSSL for cryptography. In addition, this release introduces new native media NDK APIs, as well as native OpenGL ES (GLES) 3.1 support.
 
-To use the 64-bit support provided in Android 5.0, download and install NDK Revision 10c from the Android NDK page. Refer to the Revision 10c release notes for more information about important changes and bug fixes to the NDK.
+Android 5.0引入了64位支持，增加了寻址空间和系统表现的同时完美兼容现在的32位系统。64位支持同样增强了OpenSSL的加密性能。此外，这个版本还增加了新的多媒体NDK API以及OpenGL ES3.1支持。
+
+要使用64位支持，到[这里](http://developer.android.com/tools/sdk/ndk/index.html)下载NDK Revision 10c，查看[这里](http://developer.android.com/tools/sdk/ndk/index.html#Revisions)以获取更多此版NDK的信息。
+
+## Binding to a Service ##
+Context.bindService()方法现在需要指定explicit Intent。如果implicit intent的话将抛出一个错误。为确保app安全性，请在启动或者绑定service的时候使用explicit intent，不要为service定义intent filters。
+
+## WebView ##
+Android 5.0 改变了app的默认行为。
+
+**如果你的系统target api为21以上:**
+
+- 系统默认禁止了[mixed content](https://developer.mozilla.org/en-US/docs/Security/MixedContent)和第三方cookie。可以使用[setMixedContentMode()](http://developer.android.com/reference/android/webkit/WebSettings.html#setMixedContentMode(int)) 和 [setAcceptThirdPartyCookies()](http://developer.android.com/reference/android/webkit/CookieManager.html#setAcceptThirdPartyCookies(android.webkit.WebView, boolean))以分别启用。
+- The system now intelligently chooses portions of the HTML document to draw. This new default behavior helps to reduce memory footprint and increase performance. If you want to render the whole document at once, disable this optimization by calling enableSlowWholeDocumentDraw().
+- 系统现在可以智能选择HTML文档的portion来绘制。这种新特性可以减少内存footprint并改进性能。若要一次性渲染整个HTML文档，可以调用这个方法[enableSlowWholeDocumentDraw()](http://developer.android.com/reference/android/webkit/WebView.html#enableSlowWholeDocumentDraw())
+
+**如果你的app的target api低于21: **系统允许mixed content和第三方cookie，并且总是一次性渲染整个HTML文档。
+
+## 自定义Permissions的唯一性要求 ##
+如[Permissions](http://developer.android.com/guide/topics/manifest/manifest-intro.html#perms)文档所述，Android应用可以自定义permissions以限定调用某个组件的方式。应用在manifest文件中定义这此自定义permissions。
+
+只有少数情况下我们才需要自定义permissions，很多情况下使用自定义permissions是没有必要且容易引发潜在危险的，这取决于这些permossioms的保护级别。
+
+Android系统同时引入了一种新特性以确保一个特定的自定义permissions只能被一个app定义，除非其他app有相同的签名。
+
+**对于那些使用相同的自定义permissions的APP们**
+
+任何app都可以自定义任何permissions，所以有可能不同的app正好使用了重名的自定义permissions。比如两个有相似功能的app就有可能这么干，或者App们可能会引入拥有相同的自定义权限的公共库或者代码示例。
+
+在Android 4.4之前这样做是没有问题的。从Android 5.0开始，系统加入了**不同签名的应用的自定义权限必有具有唯一性**的限制，如果用户想要安装一个**拥有和某个已安装app有相同自定义权限但是签名不同**的app，系统将禁止安装。
+
+**Considerations for your app**
+
+In Android 5.0 and later, apps can continue to define their own custom permissions just as before and to request custom permissions from other apps through the <uses-permission> mechanism. However with the new requirement introduced in Android 5.0, you should carefully assess possible impacts on your app.
+Android 5.0以后，app仍然可以像以前一样自定义permissions和通过<uses-permission>请求其他app的权限。但是有了现在的限制之后，你应该认真考虑一下这些变化对你的app的影响。
+
+下面几点是你要考虑的:
+
+- 你的应用是否在manifest声明了<permission>元素。如果是的话，它们是否对于你的app或者service是必须的，或者，是否可以用系统默认permissions代替。
+- 如果你使用了<permission>元素，你知道它们是哪里来的吗。
+- 你是否真的希望别人通过<uses-permission>请求你的自定义权限。
+- 你是否只是复制粘贴了别人的包含<permission>元素的代码，这些permissions是否必须。
+- 你的app是否使用了别人有可能使用的permissions名字。
+
+**安装和升级软件**
+
+如上所述，Android 5.0以后的设备对于哪些有相同自定义permissions却没有相同签名的app是禁止安装的（文档真啰嗦，这里直接省了，具体看上面）
+
+**一些建议**
+
+在运行Android 5.0或者更高版本的设备上，我们建议您立即检查、作出修改、发布新版……
+
+- 如果你使用了你不必须的自定义permissions，删除它们。
+- 如果你的app必须使用自定义permissions的话，请修改它们以确保权限名的唯一性，比如可以以包名开头。
+- 如果你有一套的不同签名的app使用一个自定义permissions以共用一个组件，请确保这个自定义permissions只被定义了一次。
+- 如果你的一套app重命名相同，那么随意，同名无所谓。
+
+*下面的不懂就不翻译了*
+
+## TLS/SSL Default Configuration Changes ##
+Android 5.0 introduces changes the default TLS/SSL configuration used by apps for HTTPS and other TLS/SSL traffic:
+
+- TLSv1.2 and TLSv1.1 protocols are now enabled,
+- AES-GCM (AEAD) cipher suites are now enabled,
+- MD5, 3DES, export, and static key ECDH cipher suites are now disabled,
+- Forward Secrecy cipher suites (ECDHE and DHE) are preferred.
+
+These changes may lead to breakages in HTTPS or TLS/SSL connectivity in a small number of cases listed below.
+
+Note that the security ProviderInstaller from Google Play services already offers these changes across Android platform versions back to Android 2.3.
+
+**Server does not support any of the enabled ciphers suites**
+
+For example, a server might support only 3DES or MD5 cipher suites. The preferred fix is to improve the server’s configuration to enable stronger and more modern cipher suites and protocols. Ideally, TLSv1.2 and AES-GCM should be enabled, and Forward Secrecy cipher suites (ECDHE, DHE) should be enabled and preferred.
+
+An alternative is to modify the app to use a custom SSLSocketFactory to communicate with the server. The factory should be designed to create SSLSocket instances which have some of the cipher suites required by the server enabled in addition to default cipher suites.
+
+**App is making wrong assumptions about cipher suites used to connect to server**
+
+For example, some apps contain a custom X509TrustManager that breaks because it expects the authType parameter to be RSA but encounters ECDHE_RSA or DHE_RSA.
+
+**Server is intolerant to TLSv1.1, TLSv1.2 or new TLS extensions**
+
+For example, the TLS/SSL handshake with a server is erroneously rejected or stalls. The preferred fix is to upgrade the server to comply with the TLS/SSL protocol. This will make the server successfully negotiate these newer protocols or negotiate TLSv1 or older protocols and ignore TLS extensions it does not understand. In some cases disabling TLSv1.1 and TLSv1.2 on the server may work as a stopgap measure until the server software is upgraded.
+
+An alternative is to modify the app to use a custom SSLSocketFactory to communicate with the server. The factory should be designed to create SSLSocket instances with only those protocols enabled which are correctly supported by the server.
