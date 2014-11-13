@@ -25,7 +25,7 @@
 ## 通知 ##
 请确保你的通知将Android 5.0的最新变化考虑了进来，要获知更多如何为Android 5.0以及更高版本系统设计你的通知的信息，请看[这里](http://developer.android.com/design/patterns/notifications.html)
 
-** Material design 样式 **
+**Material design样式**
 
 通知使用深色文字以及白色（或者很浅色）的背景以适配material design样式的桌面插件。请确保你的所有通知样式统一，如果你的通知看起来有问题，请修正它们:
 - 使用 [setColor()](http://developer.android.com/reference/android/app/Notification.Builder.html#setColor(int))设置通知图标的背景（基准）色。
