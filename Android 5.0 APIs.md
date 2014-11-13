@@ -1,7 +1,7 @@
 Android 5.0 APIs
 ============
 
-*Translated from http://developer.android.com/intl/zh-cn/about/versions/android-5.0.html —— By [NashLegend](https://github.com/NashLegend)*
+*译自 http://developer.android.com/intl/zh-cn/about/versions/android-5.0.html —— By [NashLegend](https://github.com/NashLegend)*
 
 ### API Level: 21 ###
 
