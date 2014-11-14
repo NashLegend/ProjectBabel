@@ -141,3 +141,58 @@ The Java interface for the extension pack is provided with GLES31Ext. In your ap
     ...
 </manifest>
 ```
+
+## 媒体 ##
+
+### 高级相机功能的相机API ###
+
+Android 5.0引入了新的[android.hardware.camera2](http://developer.android.com/reference/android/hardware/camera2/package-summary.html) API以帮助fine-grain照片捕捉和图像处理，你可以编程的方式通过调用[getCameraIdList()](http://developer.android.com/reference/android/hardware/camera2/CameraManager.html#getCameraIdList()) 获取系统的可用相机设备列表并通过。你可以通过 [openCamera()](http://developer.android.com/reference/android/hardware/camera2/CameraManager.html#openCamera(java.lang.String, android.hardware.camera2.CameraDevice.StateCallback, android.os.Handler)) 方法指定其中一个相机设备。要捕捉图像，创建一个[CameraCaptureSession](http://developer.android.com/reference/android/hardware/camera2/CameraCaptureSession.html)并将捕获到的图像绘制到一个Surface对象上。 CameraCaptureSession可设置为单拍或者一次性连拍多张（take single shots or multiple images in a burst）。
+
+需要继承[CameraCaptureSession.CaptureCallback](http://developer.android.com/reference/android/hardware/camera2/CameraCaptureSession.CaptureCallback.html)类并设置到图像捕获请求里以获得图像捕获完成事件。当系统完成图像捕获的时候，CameraCaptureSession.CaptureCallback将接到一个[onCaptureCompleted()](http://developer.android.com/reference/android/hardware/camera2/CameraCaptureSession.CaptureCallback.html#onCaptureCompleted(android.hardware.camera2.CameraCaptureSession, android.hardware.camera2.CaptureRequest, android.hardware.camera2.TotalCaptureResult))回调，返回给你一个包含图像元数据的 [CaptureResult](http://developer.android.com/reference/android/hardware/camera2/CaptureResult.html)。
+
+[CameraCharacteristics](http://developer.android.com/reference/android/hardware/camera2/CameraCharacteristics.html)类可以让你的app检查此设备的相机支持哪些特性。此对象的[INFO_SUPPORTED_HARDWARE_LEVEL](http://developer.android.com/reference/android/hardware/camera2/CameraCharacteristics.html#INFO_SUPPORTED_HARDWARE_LEVEL)属性表示相机功能级别。
+
+- 所有的设备至少可达到[INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY](http://developer.android.com/reference/android/hardware/camera2/CameraMetadata.html#INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)级别的硬件支持，此级别功能大致相当于已弃用的[Camera](http://developer.android.com/reference/android/hardware/Camera.html) API（*注：此API在API21开始弃用*）。
+- 达到[INFO_SUPPORTED_HARDWARE_LEVEL_FULL](http://developer.android.com/reference/android/hardware/camera2/CameraMetadata.html#INFO_SUPPORTED_HARDWARE_LEVEL_FULL)级别硬件支持的设备可以手动控制图像的捕捉和后期处理以及以高帧频捕获高分辨率的图像。
+
+要查看如何使用最新的camera2 API，请查看SDK示例中的```Camera2Basic``` 和 ```Camera2Video```
+
+### 音频回放 ###
+
+此版本包含[AudioTrack](http://developer.android.com/reference/android/media/AudioTrack.html)的以下变化：
+
+- 你的app现在可以用浮点格式([ENCODING_PCM_FLOAT](http://developer.android.com/reference/android/media/AudioFormat.html#ENCODING_PCM_FLOAT))提供音频数据。可以获得更大的动态范围，more consistent precision和greater headroom。浮点运算在*中间值计算*（intermediate calculation）的时候尤其有用。Playback endpoints use integer format for audio data, and with lower bit depth. (In Android 5.0, portions of the internal pipeline are not yet floating point.)
+- 你现在可以ByteBuffer方式提供音频数据，就像提供给[MediaCodec](http://developer.android.com/reference/android/media/MediaCodec.html)的数据一样。
+- [WRITE_NON_BLOCKING](http://developer.android.com/reference/android/media/AudioTrack.html#WRITE_NON_BLOCKING)模式可以帮助某些app简化缓冲和多线程工作（simplify buffering and multithreading）。
+
+### 媒体播放控制 ###
+
+使用新的通知和媒体API以确保系统UI知道你的媒体播放情况并提取和显示专辑信息。使用新的[MediaSession](http://developer.android.com/reference/android/media/session/MediaSession.html) 和 [MediaController](http://developer.android.com/reference/android/media/session/MediaController.html)类可使得通过UI和service控制播放变得更加简单。
+
+新的MediaSession类取代了已弃用的[RemoteControlClient](http://developer.android.com/reference/android/media/RemoteControlClient.html)，它提供一套回调方法以处理*各种播放行为(差不多这么翻译吧，无非是快进快退暂停以及其他控制等等)* （transport controls and media buttons）。如果你的app提供媒体播放功能并且运行在Android TV或者Wear平台上，也可以通过MediaSession类使用相同的回调方法处理*播放行为*（transport controls）。
+
+现在你可以使用[MediaController](http://developer.android.com/reference/android/media/session/MediaController.html)类创建自己的媒体控制器app。这个类提供了一个线程安全的方式以在你的UI线程上监控和控制媒体的播放行为。创建控制器的时候，指定一个[MediaSession.Token](http://developer.android.com/reference/android/media/session/MediaSession.Token.html)对象以便与给定的MediaSession交互。
+
+通过使用[MediaController.TransportControls](http://developer.android.com/reference/android/media/session/MediaController.TransportControls.html)方法，你可以传达诸如 [play()](http://developer.android.com/reference/android/media/session/MediaController.TransportControls.html#play()), [stop()](http://developer.android.com/reference/android/media/session/MediaController.TransportControls.html#stop()), [skipToNext()](http://developer.android.com/reference/android/media/session/MediaController.TransportControls.html#skipToNext()), 和 [setRating()](http://developer.android.com/reference/android/media/session/MediaController.TransportControls.html#setRating(android.media.Rating))命令以控制MediaSession上的媒体播放。你也可以注册一个[MediaController.Callback](http://developer.android.com/reference/android/media/session/MediaController.Callback.html)回调对象以监听session上的*元数据和状态变化*（metadata and state changes）。
+
+此外，你还可以通过最新的[Notification.MediaStyle](http://developer.android.com/reference/android/app/Notification.MediaStyle.html)类创建rich notification以控制mediasession播放。
+
+### 媒体浏览 ###
+
+Android 5.0引入了新的[android.media.browse](http://developer.android.com/reference/android/media/browse/package-summary.html) API，你的app可以使用此api浏览其他app的媒体库。继承[MediaBrowserService](http://developer.android.com/reference/android/service/media/MediaBrowserService.html)类以对外暴露你的app的媒体内容。你继承的MediaBrowserService应该提供MediaSession.Token的接入口以便其他应用可以通过它播放你提供的媒体内容。
+
+若要与媒体浏览服务交互，请使用[MediaBrowser](http://developer.android.com/reference/android/media/browse/MediaBrowser.html)类。创建MediaBrowser实例时，请为MediaSession指定一个组件名。通过这个MediaBrowser实例，你的app可以连接到关联的service并获得一个暴露出来的MediaSession.Token对象。
+
+## 存储 ##
+
+### 目录选择 ###
+
+Android 5.0 extends the Storage Access Framework to let users select an entire directory subtree, giving apps read/write access to all contained documents without requiring user confirmation for each item.
+
+To select a directory subtree, build and send an OPEN_DOCUMENT_TREE intent. The system displays all DocumentsProvider instances that support subtree selection, letting the user browse and select a directory. The returned URI represents access to the selected subtree. You can then use buildChildDocumentsUriUsingTree() and buildDocumentUriUsingTree() along with query() to explore the subtree.
+
+The new createDocument() method lets you create new documents or directories anywhere under the subtree. To manage existing documents, use renameDocument() and deleteDocument(). Check COLUMN_FLAGS to verify provider support for these calls before issuing them.
+
+If you're implementing a DocumentsProvider and want to support subtree selection, implement isChildDocument() and include FLAG_SUPPORTS_IS_CHILD in your COLUMN_FLAGS.
+
+Android 5.0 also introduces new package-specific directories on shared storage where your app can place media files for inclusion in MediaStore. The new getExternalMediaDirs() returns paths to these directories on all shared storage devices. Similarly to getExternalFilesDir(), no additional permissions are needed by your app to access the returned paths. The platform periodically scans for new media in these directories, but you can also use MediaScannerConnection to explicitly scan for new content.
