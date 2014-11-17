@@ -187,12 +187,44 @@ Android 5.0引入了新的[android.media.browse](http://developer.android.com/re
 
 ### 目录选择 ###
 
-Android 5.0 extends the Storage Access Framework to let users select an entire directory subtree, giving apps read/write access to all contained documents without requiring user confirmation for each item.
+Android 5.0扩展了*存储框架*（Storage Access Framework），用户可以借此将一个文件夹（包括其子文件和文件夹）的读写权限赋予一个app。
 
-To select a directory subtree, build and send an OPEN_DOCUMENT_TREE intent. The system displays all DocumentsProvider instances that support subtree selection, letting the user browse and select a directory. The returned URI represents access to the selected subtree. You can then use buildChildDocumentsUriUsingTree() and buildDocumentUriUsingTree() along with query() to explore the subtree.
+要选择一个文件夹，请发出一条[OPEN_DOCUMENT_TREE](http://developer.android.com/reference/android/content/Intent.html#ACTION_OPEN_DOCUMENT_TREE) intent 即可。系统会列出所有支持文件夹选择的[DocumentsProvider](http://developer.android.com/reference/android/provider/DocumentsProvider.html)来让用户浏览并选择一个文件夹，返回值是选中的文件夹的URI。然后你就可以使用 [buildChildDocumentsUriUsingTree()](http://developer.android.com/reference/android/provider/DocumentsContract.html#buildChildDocumentsUriUsingTree(android.net.Uri, java.lang.String)) 、 [buildDocumentUriUsingTree()](http://developer.android.com/reference/android/provider/DocumentsContract.html#buildDocumentUriUsingTree(android.net.Uri, java.lang.String)) 和 [query()](http://developer.android.com/reference/android/content/ContentResolver.html#query(android.net.Uri, java.lang.String[], java.lang.String, java.lang.String[], java.lang.String)) 浏览此文件夹的子目录了。
 
-The new createDocument() method lets you create new documents or directories anywhere under the subtree. To manage existing documents, use renameDocument() and deleteDocument(). Check COLUMN_FLAGS to verify provider support for these calls before issuing them.
+新的 [createDocument()](http://developer.android.com/reference/android/provider/DocumentsContract.html#createDocument(android.content.ContentResolver, android.net.Uri, java.lang.String, java.lang.String)) 方法使得你可以在上面选择的文件夹及其子文件夹下面创建新文档或者文件夹。要操作已经存在的文件，请使用 [renameDocument()](http://developer.android.com/reference/android/provider/DocumentsContract.html#renameDocument(android.content.ContentResolver, android.net.Uri, java.lang.String)) 和 [deleteDocument()](http://developer.android.com/reference/android/provider/DocumentsProvider.html#deleteDocument(java.lang.String)). 调用这此方法之前先检查 [COLUMN_FLAGS](http://developer.android.com/reference/android/provider/DocumentsContract.Document.html#COLUMN_FLAGS) 以确定provider对这些方法是否。分别是：[FLAG_SUPPORTS_WRITE](http://developer.android.com/reference/android/provider/DocumentsContract.Document.html#FLAG_SUPPORTS_WRITE)，[FLAG_SUPPORTS_DELETE](http://developer.android.com/reference/android/provider/DocumentsContract.Document.html#FLAG_SUPPORTS_DELETE)，[FLAG_SUPPORTS_THUMBNAIL](http://developer.android.com/reference/android/provider/DocumentsContract.Document.html#FLAG_SUPPORTS_THUMBNAIL)，[FLAG_DIR_PREFERS_GRID](http://developer.android.com/reference/android/provider/DocumentsContract.Document.html#FLAG_DIR_PREFERS_GRID)，[FLAG_DIR_PREFERS_LAST_MODIFIED](http://developer.android.com/reference/android/provider/DocumentsContract.Document.html#FLAG_DIR_PREFERS_LAST_MODIFIED)）。
 
-If you're implementing a DocumentsProvider and want to support subtree selection, implement isChildDocument() and include FLAG_SUPPORTS_IS_CHILD in your COLUMN_FLAGS.
+如果你实现了一个[DocumentsProvider](http://developer.android.com/reference/android/provider/DocumentsProvider.html)并且想要支持子目录选择，请实现[isChildDocument()](http://developer.android.com/reference/android/provider/DocumentsProvider.html#isChildDocument(java.lang.String, java.lang.String))方法并将[FLAG_SUPPORTS_IS_CHILD](http://developer.android.com/reference/android/provider/DocumentsContract.Root.html#FLAG_SUPPORTS_IS_CHILD)放到[COLUMN_FLAGS](http://developer.android.com/reference/android/provider/DocumentsContract.Root.html#COLUMN_FLAGS)里。
 
-Android 5.0 also introduces new package-specific directories on shared storage where your app can place media files for inclusion in MediaStore. The new getExternalMediaDirs() returns paths to these directories on all shared storage devices. Similarly to getExternalFilesDir(), no additional permissions are needed by your app to access the returned paths. The platform periodically scans for new media in these directories, but you can also use MediaScannerConnection to explicitly scan for new content.
+Android 5.0同时也引入了新的共享存储区上的package-specific目录，你可以在为里存储媒体文件，这些媒体文件可以被包含进[MediaStore](http://developer.android.com/reference/android/provider/MediaStore.html)里，新的 [getExternalMediaDirs()](http://developer.android.com/reference/android/content/Context.html#getExternalMediaDirs())方法返回你的app在所有共享存储设备上的媒体存储目录。像[getExternalFilesDir()](http://developer.android.com/reference/android/content/Context.html#getExternalFilesDir(java.lang.String))一样不需要特殊权限。系统会定时扫描这些文件夹中的媒体内容，当然你也可以使用[MediaScannerConnection](http://developer.android.com/reference/android/media/MediaScannerConnection.html)自行扫描新内容。*（大哥们不要把缓存的图片放这儿啊，~~好想把那些将缓存图片直接放到sd卡某个目录下的人拉出来打一顿~~）*
+
+## Wireless & Connectivity ##
+
+### 多网络连接（Multiple network connections） ###
+
+Android 5.0支持新的多网络连接API以使你的app可以*根据特定功能*（with specific capabilities）动态扫描可用的网络并建立连接。当你的app需要指定网络——SUPL（无线位置服务）, 彩信或者运营商计费网络——才能用或者要通过一个特定的协议才能传输你的数据的时候，这个功能就派上用场了。
+
+你的app动态选择并连接一个网络连接的步骤如下：
+
+1. 新建一个[ConnectivityManager](http://developer.android.com/reference/android/net/ConnectivityManager.html).
+2. 使用[NetworkRequest.Builder](http://developer.android.com/reference/android/net/NetworkRequest.Builder.html) 类创建一个[NetworkRequest](http://developer.android.com/reference/android/net/NetworkRequest.html)对象并指定你的app需要的网络特性和传输类型。 
+3. 要扫描合适的网络，请调用[requestNetwork()](http://developer.android.com/reference/android/net/ConnectivityManager.html#requestNetwork(android.net.NetworkRequest, android.net.ConnectivityManager.NetworkCallback)) 或者 [registerNetworkCallback()](http://developer.android.com/reference/android/net/ConnectivityManager.html#registerNetworkCallback(android.net.NetworkRequest, android.net.ConnectivityManager.NetworkCallback)), 并将NetworkRequest对象和一个 [ConnectivityManager.NetworkCallback](http://developer.android.com/reference/android/net/ConnectivityManager.NetworkCallback.html)作为参数传过去。如果你要在合适的网络被扫描到之后就切换到这个网络，请调用用 [requestNetwork()](http://developer.android.com/reference/android/net/ConnectivityManager.html#requestNetwork(android.net.NetworkRequest, android.net.ConnectivityManager.NetworkCallback)) 方法 如果仅仅接收扫描结果而不切换网络的话，请使用[registerNetworkCallback()](http://developer.android.com/reference/android/net/ConnectivityManager.html#registerNetworkCallback(android.net.NetworkRequest, android.net.ConnectivityManager.NetworkCallback)) 方法.
+当系统探测到一个合适的网络时连接到这个网络并调用[onAvailable()](http://developer.android.com/reference/android/net/ConnectivityManager.NetworkCallback.html#onAvailable(android.net.Network))方法。你可以使用这个方法传进来的[Network](http://developer.android.com/reference/android/net/Network.html)对象得到这个网络更多的信息或者使用此网络。
+
+### 低功耗蓝牙 ###
+
+Android 4.3引入了对Bluetooth Low Energy (Bluetooth LE)的平台支持in the central role(咋理解)。从Android 5.0开始，Android设备可以像低功耗蓝牙外设一样了。应用可以使用些功能使得附近的设备探测到你的存在。比如说，你可以创建一个计步器应用或者健康状况监视应用并与另外一个低功耗蓝牙外设建立数据连接。
+
+使用新的[android.bluetooth.le](http://developer.android.com/reference/android/bluetooth/le/package-summary.html) API，你的app可以*广播广告*（broadcast advertisements）、*扫描响应*（scan for responses）并与附近的低功耗蓝牙设备连接。要使用新的广播和扫描特性，请在manifest文件中添加[BLUETOOTH_ADMIN](http://developer.android.com/reference/android/Manifest.permission.html#BLUETOOTH_ADMIN)权限。当用户下载或者更新你的app时，会被请求允许这些权限。
+
+要开始Bluetooth LE advertising以便别的设备可以发现你的app，请调用[startAdvertising()](http://developer.android.com/reference/android/bluetooth/le/BluetoothLeAdvertiser.html#startAdvertising(android.bluetooth.le.AdvertiseSettings, android.bluetooth.le.AdvertiseData, android.bluetooth.le.AdvertiseCallback))将一个[AdvertiseCallback](http://developer.android.com/reference/android/bluetooth/le/AdvertiseCallback.html)作为参数传进去。这个callback对象会接收advertising功能或者失败的消息。
+
+Android 5.0 引入了[ScanFilter](http://developer.android.com/reference/android/bluetooth/le/ScanFilter.html)，这样你的app就可以只搜索你需要的特定类型的设备。调用[startScan()](http://developer.android.com/reference/android/bluetooth/le/BluetoothLeScanner.html#startScan(android.bluetooth.le.ScanCallback))方法并传递进一个filter列表以扫描低功耗蓝牙设备——你必须提供一个[ScanCallback](http://developer.android.com/reference/android/bluetooth/le/ScanCallback.html)以报告Bluetooth LE advertisement发现事件。
+
+### NFC enhancements ###
+
+Android 5.0 adds these enhancements to enable wider and more flexible use of NFC:
+
+Android Beam is now available in the share menu.
+Your app can invoke the Android Beam on the user’s device to share data by calling invokeBeam(). This avoids the need for the user to manually tap the device against another NFC-capable device to complete the data transfer.
+You can use the new createTextRecord() method to create an NDEF record containing UTF-8 text data.
+If you are developing a payment app, you now have the ability to register an NFC application ID (AID) dynamically by calling registerAidsForService(). You can also use setPreferredService() to set the preferred card emulation service that should be used when a specific activity is in the foreground.
