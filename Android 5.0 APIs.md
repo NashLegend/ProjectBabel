@@ -3,6 +3,8 @@ Android 5.0 APIs
 
 *译自 http://developer.android.com/intl/zh-cn/about/versions/android-5.0.html —— By [NashLegend](https://github.com/NashLegend)*
 
+Sample示例在这里找：https://github.com/googlesamples/
+
 ### API Level: 21 ###
 
 Android 5.0 ([LOLLIPOP](http://developer.android.com/intl/zh-cn/reference/android/os/Build.VERSION_CODES.html#LOLLIPOP)) 为用户和开发人员提供了一些新特性，这篇文章将重点介绍一些值得注意的新增API。
@@ -212,19 +214,197 @@ Android 5.0支持新的多网络连接API以使你的app可以*根据特定功�
 
 ### 低功耗蓝牙 ###
 
+（*完全不懂……*）
+
 Android 4.3引入了对Bluetooth Low Energy (Bluetooth LE)的平台支持in the central role(咋理解)。从Android 5.0开始，Android设备可以像低功耗蓝牙外设一样了。应用可以使用些功能使得附近的设备探测到你的存在。比如说，你可以创建一个计步器应用或者健康状况监视应用并与另外一个低功耗蓝牙外设建立数据连接。
 
 使用新的[android.bluetooth.le](http://developer.android.com/reference/android/bluetooth/le/package-summary.html) API，你的app可以*广播广告*（broadcast advertisements）、*扫描响应*（scan for responses）并与附近的低功耗蓝牙设备连接。要使用新的广播和扫描特性，请在manifest文件中添加[BLUETOOTH_ADMIN](http://developer.android.com/reference/android/Manifest.permission.html#BLUETOOTH_ADMIN)权限。当用户下载或者更新你的app时，会被请求允许这些权限。
 
 要开始Bluetooth LE advertising以便别的设备可以发现你的app，请调用[startAdvertising()](http://developer.android.com/reference/android/bluetooth/le/BluetoothLeAdvertiser.html#startAdvertising(android.bluetooth.le.AdvertiseSettings, android.bluetooth.le.AdvertiseData, android.bluetooth.le.AdvertiseCallback))将一个[AdvertiseCallback](http://developer.android.com/reference/android/bluetooth/le/AdvertiseCallback.html)作为参数传进去。这个callback对象会接收advertising功能或者失败的消息。
 
-Android 5.0 引入了[ScanFilter](http://developer.android.com/reference/android/bluetooth/le/ScanFilter.html)，这样你的app就可以只搜索你需要的特定类型的设备。调用[startScan()](http://developer.android.com/reference/android/bluetooth/le/BluetoothLeScanner.html#startScan(android.bluetooth.le.ScanCallback))方法并传递进一个filter列表以扫描低功耗蓝牙设备——你必须提供一个[ScanCallback](http://developer.android.com/reference/android/bluetooth/le/ScanCallback.html)以报告Bluetooth LE advertisement发现事件。
+Android 5.0 引入了[ScanFilter](http://developer.android.com/reference/android/bluetooth/le/ScanFilter.html)，这样你的app就可以只搜索你需要的特定类型的设备。调用[startScan()](http://developer.android.com/reference/android/bluetooth/le/BluetoothLeScanner.html#startScan(android.bluetooth.le.ScanCallback))方法并传递进一个filter列表以扫描低功耗蓝牙设备——你必须提供一个[ScanCallback](http://developer.android.com/reference/android/bluetooth/le/ScanCallback.html)以在Bluetooth LE advertisement被发现后可以报告。（............）
 
-### NFC enhancements ###
+### NFC增强 ###
 
-Android 5.0 adds these enhancements to enable wider and more flexible use of NFC:
+Android 5.0对NFC进行了以下增强以使其得以更广泛和灵活的应用：
 
-Android Beam is now available in the share menu.
-Your app can invoke the Android Beam on the user’s device to share data by calling invokeBeam(). This avoids the need for the user to manually tap the device against another NFC-capable device to complete the data transfer.
-You can use the new createTextRecord() method to create an NDEF record containing UTF-8 text data.
-If you are developing a payment app, you now have the ability to register an NFC application ID (AID) dynamically by calling registerAidsForService(). You can also use setPreferredService() to set the preferred card emulation service that should be used when a specific activity is in the foreground.
+- Android Beam 可以在分享按钮中使用了。
+- 你的应用可以通过[invokeBeam()](http://developer.android.com/reference/android/nfc/NfcAdapter.html#invokeBeam(android.app.Activity))调用Android Beam以分享数据。避免了用户必须自己手动操作设备以来分享数据的麻烦。
+- 你现在可以使用[createTextRecord()](http://developer.android.com/reference/android/nfc/NdefRecord.html#createTextRecord(java.lang.String, java.lang.String))方法创建包含UTF-8文本格式数据的NDEF记录。
+- 如果你在开发一款支付类应用，你现在可以对过调用[registerAidsForService()](http://developer.android.com/reference/android/nfc/cardemulation/CardEmulation.html#registerAidsForService(android.content.ComponentName, java.lang.String, java.util.List<java.lang.String>))以动态地注册一个NFC应用ID（AID）。你也可以使用[setPreferredService()](http://developer.android.com/reference/android/nfc/cardemulation/CardEmulation.html#setPreferredService(android.app.Activity, android.content.ComponentName))方法用于在某个特定的acitivy处于前台时指定一个偏好的Card Emulation服务。
+
+## Project Volta ##
+
+除了新特性之外（？），Android 5.0还*重点突出了对电池寿命的提升*（emphasizes improvements in battery life）。使用新的API和工具可以查看并优化你的app的电量使用。
+
+### Scheduling jobs ###
+
+Android 5.0提供一个新的[JobScheduler](http://developer.android.com/reference/android/app/job/JobScheduler.html) API以让你通过使系统推迟一些时间或者在特定条件下（比如充电中）异步执行某些任务以优化电池寿命。在下面情况下这很有用。
+
+- 应用有可延后执行的后台任务。
+- 应用有你想在充电时才执行的任务。
+- 应用有需要网络或者WIFI才能执行的任务。
+- 应用有一些要*定期统一执行*（run as a batch on a regular schedule）的任务。
+
+*一单位任务*（A unit of work）同一个[JobInfo](http://developer.android.com/reference/android/app/job/JobInfo.html)对象封装，这个对象指定了任务如何安排。
+
+使用[JobInfo.Builder](http://developer.android.com/reference/android/app/job/JobInfo.Builder.html)类来设置如何安排这些任务的运行时刻表，你可以安排任务在正面情况下运行，比如：
+
+- 设备充电时开始执行。
+- 设备连接到非计费网络时开始执行。
+- 设置空闲时开始执行。
+- 在某个deadline前或者某个delay后结束执行。
+
+举例，如果你想在设备连接到非计费网络时执行，可以这样做：
+
+```
+JobInfo uploadTask = new JobInfo.Builder(mJobId,
+                                         mServiceComponent /* JobService component */)
+        .setRequiredNetworkCapabilities(JobInfo.NetworkType.UNMETERED)
+        .build();
+JobScheduler jobScheduler =
+        (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+jobScheduler.schedule(uploadTask);
+```
+
+如果设备有一个稳定的电源（进入充电状态超过两分钟并且电量处于[健康水平](http://developer.android.com/reference/android/content/Intent.html#ACTION_BATTERY_OKAY)），系统就会执行被安排好的任务，*即使该任务的deadline还没有过期*（？？？even if the job’s deadline has not expired）。
+
+要查看如何使用JobScheduler API，请查看Sample中的JobSchedulerSample。
+
+### 电量使用开发工具 ###
+
+新的```dumpsys batterystats```命令可以返回你感兴趣的按唯一的UID组织的电量使用数据。数据包括以下几方面：
+
+- 电池相关事件历史。
+- 设备的全局数据。
+- 每个UID和系统组件的粗略的电量使用。
+- Per-app mobile ms per packet
+- 系统UID总数据。
+- 应用UID总数据。
+
+使用```--help```可以学习更多的参数选项以输出你想要的数据。比如，要输出上次充电后某个指定app的电量使用数据，执行如下命令：
+
+```
+$ adb shell dumpsys batterystats --charged <package-name>
+```
+
+你可以对上面的命令的输出数据使用[Battery Historian](https://github.com/google/battery-historian)工具来生成HTML页面以方便查看。
+
+## Android在办公和教育中的应用 ##
+
+（*不知所云，一片胡扯*）
+
+### Managed provisioning ###
+
+Android 5.0 为在办公环境中运行的app提供了新的功能。如果用户已经在设备上有了一个个人账户，设备管理员可以启动一个*管理配置进程*（managed provisioning process）以再添加一个共存但是相互独立的profile。受管理的profiles关联的app与非受管理的app并列出现在Launcher、最近任务和通知里面。
+
+要启动*管理配置进程*，发起一个[ACTION_PROVISION_MANAGED_PROFILE](http://developer.android.com/reference/android/app/admin/DevicePolicyManager.html#ACTION_PROVISION_MANAGED_PROFILE) Intent。如果调用成功的话，系统回调[onProfileProvisioningComplete()](http://developer.android.com/reference/android/app/admin/DeviceAdminReceiver.html#onProfileProvisioningComplete(android.content.Context, android.content.Intent))。然后你可以调用[setProfileEnabled() ](http://developer.android.com/reference/android/app/admin/DevicePolicyManager.html#setProfileEnabled(android.content.ComponentName))来启动这个受管理的profile。
+
+默认情况下，在受管理的profile里面只有很少的app可用。你可以在受管理profile里面调用[enableSystemApp()](http://developer.android.com/reference/android/app/admin/DevicePolicyManager.html#enableSystemApp(android.content.ComponentName, android.content.Intent))来使其他app在包含进profile中。
+
+如果你在开发一款Launcher程序，可以使用新的[LauncherApps](http://developer.android.com/reference/android/content/pm/LauncherApps.html)类来获取可展示到Launcher上的的activity列表——当然只能是属于当前用户和相关的受管理的profiles的。你的Launcher可以通过加入一个工作标志来使得使受管理的app突出显示出来，通过[getUserBadgedIcon()](http://developer.android.com/reference/android/content/pm/PackageManager.html#getUserBadgedIcon(android.graphics.drawable.Drawable, android.os.UserHandle))方法可以取得这种带标志的图标。
+
+查看Sample中的```BasicManagedProfile```来学习如何使用这些新功能。
+
+### *设备所有者*（Device owner） ###
+
+Android 5.0 引入了可以部署```设备所有者```app的能力，```设备所有者```是一个拥有创建和删除子用户以及配置全局设置的*特殊类型的*（specialized type）设备管理员。你的所有者应用可以使用[DevicePolicyManager](http://developer.android.com/reference/android/app/admin/DevicePolicyManager.html)里面的方法的对设备配置、安全策略的应用*进行细粒度的控制*（take fine-grain control）。一个设备在同一时间只能有一个活动的设备所有者。
+
+要部署并激活设备所有者，在设备的unprovisioned状态下，进行从一个*编程应用*（programming app）到设备NFC数据传输。传输的数据和上面刚刚提到的provisioning intent中的数据相同。
+
+### 屏幕固定 ###
+
+Android 5.0 引入了新的屏幕固定API，可以让用户暂时限制在一个任务中无法离开，此时也不会被通知所干扰。如果你正在开发*一款教育应用以在Android支持高风险的评估要求或者目的单一的或者Kiosk应用程序*（an education app to support high stakes assessment requirements on Android, or a single-purpose or kiosk application.）的时候，你就可以考虑使用这个API。一旦你的app启动了屏幕固定，用户就将看不到通知、打开其他app或者返回桌面，直到退出这种模式。
+
+有两种方式启动屏幕固定：
+
+- **手动固定**：用户可以拖动开启屏幕固定。设置>安全>屏幕固定，然后选择在最近任务界面选择在固定的任务。
+- **编程固定**：要通过编码实现屏幕固定，在你的app中调用[startLockTask()](http://developer.android.com/reference/android/app/Activity.html#startLockTask())方法。如果请求的app不是*设备所有者*（device owner），用户会被弹出一个询问提示。设备所有者可以调用[setLockTaskPackages()](http://developer.android.com/reference/android/app/admin/DevicePolicyManager.html#setLockTaskPackages(android.content.ComponentName, java.lang.String[]))方法以使得某个app可以不经过用户确认就进步屏幕固定状态。
+
+任务锁定后，会：
+
+- 状态栏变空，用户通知和状态信息被隐藏。
+- 主屏幕和最近任务按钮被隐藏。
+- 其他app打不开新的activity。
+- 只要不开启新的task,当前app可以打开新的activity。
+- 如果屏幕固定是由设备所有者启动，用户仍旧会锁定在你的app下直到调用了[stopLockTask()](http://developer.android.com/reference/android/app/admin/DevicePolicyManager.html#setLockTaskPackages(android.content.ComponentName, java.lang.String[]))。
+- 如果屏幕固定由非设备所有者启动或者由用户手动启动，*用户可以通过同时按住返回的最近任务按钮退出*（the user can exit by holding both the Back and Recent buttons）
+
+## 打印框架 ##
+
+### 以bitmap渲染PDF ###
+
+现在可以用新的[PdfRenderer](http://developer.android.com/reference/android/graphics/pdf/PdfRenderer.html)类将PDF页面渲染成bitmap来渲染。必须指定一个可搜索（内容可以随机访问）的[ParcelFileDescriptor](http://developer.android.com/reference/android/os/ParcelFileDescriptor.html)，系统会在它上面写入可打印数据。通过调用[openPage()](http://developer.android.com/reference/android/graphics/pdf/PdfRenderer.html#openPage(int))方法，你的app可以得到一个待渲染页面，然后调用[render()](http://developer.android.com/reference/android/graphics/pdf/PdfRenderer.Page.html#render(android.graphics.Bitmap, android.graphics.Rect, android.graphics.Matrix, int))以将打开的[PdfRenderer.Page](http://developer.android.com/reference/android/graphics/pdf/PdfRenderer.Page.html)渲染到一个bitmap上。如果你想只转换此文档的一部分的话，要传入额外的一些参数。
+
+要查看如何使用新的API，请查看Sample里面的```PdfRendererBasic ```。
+
+## 系统 ##
+
+### 应用使用数据 ###
+
+现在你可以使用[android.app.usage](http://developer.android.com/reference/android/app/usage/package-summary.html) API获取Android设备的app使用历史。这个API提供了比已经弃用的[getRecentTasks()](http://developer.android.com/reference/android/app/ActivityManager.html#getRecentTasks(int, int))方法更详细的使用数据。要使用这个API，首先要在manifest中添加```android.permission.PACKAGE_USAGE_STATS```权限，用户可以通过Settings > Security > Apps赋予此app的读取app使用数据的权限.
+
+系统按应用分别收集使用数据，并且按天、周、月、年整合数据。系统保存数据的最长时间如下：
+
+- Daily data: 7天
+- Weekly data: 4周
+- Monthly data: 6个月
+- Yearly data: 2年 
+
+对于每个应用，系统记录如下数据：
+
+- 应用上次使用时间。
+- 对应时间段内应用前台运行总时间(by day, week, month, or year)。
+- 一个组件（按包名和activity名区分）在一天内被移动到前台或者后台的Timestamp capturing。
+- 设备设置改变（比如屏幕方向改变）的Timestamp capturing。
+
+## 测试 & 辅助功能 ##
+
+### 测试和可访问性改进 ###
+
+Android 5.0为测试和可访问性增加如下支持：
+
+- 新的[getWindowAnimationFrameStats()](http://developer.android.com/reference/android/app/UiAutomation.html#getWindowAnimationFrameStats())和[getWindowContentFrameStats()](http://developer.android.com/reference/android/app/UiAutomation.html#getWindowContentFrameStats(int))方法可以捕获窗口动画和内容的帧数据。这些方法使你可以编写instrumentation tests以评估app是否流畅。
+- 新的[executeShellCommand()](http://developer.android.com/reference/android/app/UiAutomation.html#executeShellCommand(java.lang.String))方法让你可以在instrumentation test中执行shell命令。类似于执行 adb shell，这样你可以使用一些shell工具比如```dumpsys, am, content``` 和``` pm```.
+- 使用accessibility APIs(比如[UiAutomator](http://developer.android.com/tools/help/uiautomator/index.html))的Accessibility Service和测试工具现在可以取得屏幕上能够进行可见交互的窗口的详细信息。要获得[AccessibilityWindowInfo](http://developer.android.com/reference/android/view/accessibility/AccessibilityWindowInfo.html)对象列表，请调用 [getWindows()](http://developer.android.com/reference/android/accessibilityservice/AccessibilityService.html#getWindows())方法。
+- 新的[AccessibilityNodeInfo.AccessibilityAction](http://developer.android.com/reference/android/view/accessibility/AccessibilityNodeInfo.AccessibilityAction.html)类让你可以在[AccessibilityNodeInfo](http://developer.android.com/reference/android/view/accessibility/AccessibilityNodeInfo.html)上执行标准的或者自定义的动作。新的 [AccessibilityNodeInfo.AccessibilityAction](http://developer.android.com/reference/android/view/accessibility/AccessibilityNodeInfo.AccessibilityAction.html)类取代了AccessibilityNodeInfo中的早期action API。
+- Android 5.0使你的app可以对文字转语音（text-to-speech synthesis）进行更细粒度的控制。有了新的Voice类，你的App可以通过指定地区, 质量和延迟率来设置声音。and text-to-speech engine-specific parameters。
+
+## IME ##
+
+### Easier switching between input languages ###
+
+Beginning in Android 5.0, users can more easily switch between all input method editors (IME) supported by the platform. Performing the designated switching action (usually touching a Globe icon on the soft keyboard) cycles through all such IMEs. This change in behavior is implemented by the shouldOfferSwitchingToNextInputMethod() method.
+
+In addition, the framework now checks whether the next IME includes a switching mechanism at all (and, thus, whether that IME supports switching to the IME after it). An IME with a switching mechanism will not cycle to an IME without one. This change in behavior is implemented by the switchToNextInputMethod() method.
+
+To see an example of how to use the updated IME-switching APIs, refer to the updated soft-keyboard implementation sample in this release. To learn more about how to implement switching between IMEs, see Creating an Input Method.
+
+## Manifest Declarations ##
+
+### Declarable required features ###
+
+The following values are now supported in the <uses-feature> element, so you can ensure that your app is installed only on devices that provide the features your app needs.
+
+- FEATURE_AUDIO_OUTPUT
+- FEATURE_CAMERA_CAPABILITY_MANUAL_POST_PROCESSING
+- FEATURE_CAMERA_CAPABILITY_MANUAL_SENSOR
+- FEATURE_CAMERA_CAPABILITY_RAW
+- FEATURE_CAMERA_LEVEL_FULL
+- FEATURE_GAMEPAD
+- FEATURE_LIVE_TV
+- FEATURE_MANAGED_USERS
+- FEATURE_LEANBACK
+- FEATURE_OPENGLES_EXTENSION_PACK
+- FEATURE_SECURELY_REMOVES_USERS
+- FEATURE_SENSOR_AMBIENT_TEMPERATURE
+- FEATURE_SENSOR_HEART_RATE_ECG
+- FEATURE_SENSOR_RELATIVE_HUMIDITY
+- FEATURE_VERIFIED_BOOT
+- FEATURE_WEBVIEW
+
+### User permissions ###
+
+The following permission is now supported in the <uses-permission> element to declare the permissions your app requires to access certain APIs.
+
+BIND_DREAM_SERVICE: When targeting API level 21 and higher, this permission is required by a Daydream service, to ensure that only the system can bind to it.
