@@ -114,7 +114,7 @@ Android系统同时引入了一种新特性以确保一个特定的自定义perm
 
 在Android 4.4之前这样做是没有问题的。从Android 5.0开始，系统加入了**不同签名的应用的自定义权限必有具有唯一性**的限制，如果用户想要安装一个**拥有和某个已安装app有相同自定义权限但是签名不同**的app，系统将禁止安装。
 
-###Considerations for your app###
+##Considerations for your app##
 
 Android 5.0以后，app仍然可以像以前一样自定义permissions和通过<uses-permission>请求其他app的权限。但是有了现在的限制之后，你应该认真考虑一下这些变化对你的app的影响。
 
