@@ -241,13 +241,13 @@ values/themes.xml:
 
 ##### 为啥我的老Android系统上的EditText（或者上面提到的支持的控件）长得不像Material风格呢？ #####
 
-AppCompat的工作原理是拦截layout inflation并且在对应的位置插件一个特殊的*可使用Material样式的组件*（tint-aware version of the widget）来实现的。对于大部分人来说这应该没啥问题，但是下面几种情况有可能导致一些问题：
+AppCompat的工作原理是拦截layout inflation并且在对应的位置插入一个特殊的*可使用Material样式的组件*（tint-aware version of the widget）来实现的。对于大部分应用来说这应该没啥问题，但是下面几种情况有可能导致一些问题：
   - 你使用自己的自定义的widget（比如使用的自定义的继承了EditText的类）。
   - 你创建EditText的时候没有给它LayoutInflater（比如直接New EditText()）
 
 这些特殊的组件目前被我们藏起来了，因为还没有完全做完。以后可能会好点……
 
-#####为何某某组件在我的老Android系统上长得不像Material风格?#####
+#####为何有的组件在我的老Android系统上长得没有Material风格?#####
 
 目前AppCompat只支持常用的组件的Material主题，其他的以后会有的。
 
