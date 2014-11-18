@@ -61,7 +61,6 @@ values/themes.xml:
 
 #### 设置主题 ####
 
-AppCompat has support for the new color palette theme attributes which allow you to easily customize your theme to fit your brand with primary and accent colors. For example:
 AppCompat已经支持新的[color palette theme](http://developer.android.com/training/material/theme.html#ColorPalette)属性，使用这些属性，你可以很轻易地讲你的应用色调与[primary and accent colors](http://www.google.com/design/spec/style/color.html#color-ui-color-application)搭配。举个栗子：
 ```
 values/themes.xml:
@@ -143,7 +142,7 @@ public void onCreate(Bundle savedInstanceState) {
 
 然后options menu就会显示在ToolBar上了。
 
-##### Standalone #####
+##### Standalone模式 #####
 
 standalone模式与actionbar模式的不同是你不必setSupportActionBar了，把它当一个普通组件看待就好，也不必非得把ActionBar给禁用了。
 
