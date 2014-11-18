@@ -400,4 +400,4 @@ Android 5.0为测试和可访问性增加如下支持：
 
 现在```<uses-permission>```已经支持下面的权限，如果你需要的话就加上它吧。
 
-BIND_DREAM_SERVICE: 如果目标API是21或更高, [Daydream](http://developer.android.com/about/versions/android-4.2.html#Daydream)服务需要使用这个权限以确保只有系统能绑定到它。（When targeting API level 21 and higher, this permission is required by a Daydream service, to ensure that only the system can bind to it.）
+BIND_DREAM_SERVICE: 如果目标API是21或更高, [Daydream](http://developer.android.com/about/versions/android-4.2.html#Daydream)服务需要使用这个权限。（When targeting API level 21 and higher, this permission is required by a Daydream service, to ensure that only the system can bind to it.）
