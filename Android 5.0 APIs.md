@@ -17,7 +17,7 @@ Android 5.0 ([LOLLIPOP](http://developer.android.com/intl/zh-cn/reference/androi
 
 要为Android 5.0开发app，请先使用SDK Mnager下载最新的SDK和系统镜像。
 
-### Update your target API level ###
+### 升级你的target API ###
 
 为使得你的app在Android获得更好的表现，请将你的targetSdkVersion设置成21。调用最新的Android 5.0 API的时候要注意在调用前判断系统版本号以兼容之前的系统版本。不能使用低于minSdkVersion的API。详见[Android后向兼容性](http://developer.android.com/training/basics/supporting-devices/platforms.html)
 
@@ -29,11 +29,10 @@ Android 5.0 ([LOLLIPOP](http://developer.android.com/intl/zh-cn/reference/androi
 
 Android 5.0 新增了material design样式的支持. 你可以通过material design创建具有自然的动态效果和过渡风格的app. 系统支持包括以下方面:
 
-- The material theme
 - 系统自带Material design主题
 - 组件阴影
 - RecyclerView组件以取代ListView
-- *Drawable动画和样式效果*。（这里应该是指Ripple Drawable）（Drawable animation and styling effects）
+- *Drawable动画和样式效果*。（这里应该是指Ripple Drawable之类）（Drawable animation and styling effects）
 - Material design风格的动画和activity过渡效果
 - *基于组件状态的Animator*。（Animators for view properties based on the state of the view）
 - 可定制的UI组件和工具栏（这里指的应该是ToolBar）
@@ -63,13 +62,11 @@ Android 5.0的WebView升级到了Chromium M37，修复了诸多bug以及带来�
 
 ### 屏幕捕获和分享 ###
 
-Android 5.0 lets you add screen capturing and screen sharing capabilities to your app with the new android.media.projection APIs. This functionality is useful, for example, if you want to enable screen sharing in a video conferencing app.
-
 Android 5.0新增[android.media.projection](http://developer.android.com/reference/android/media/projection/package-summary.html) API以让你拥有捕获和屏幕分享功能。举个例子，如果你要在视频会议app中添加屏幕分享功能的话，就可以使用这个功能。
 
 新的 [createVirtualDisplay()](http://developer.android.com/reference/android/media/projection/MediaProjection.html#createVirtualDisplay(java.lang.String, int, int, int, int, android.view.Surface, android.hardware.display.VirtualDisplay.Callback, android.os.Handler)) 方法 允许你的app将主屏幕内容(the default display)捕获到一个Surface对象上，这样你的app就可以通过网络对此进行分享。这个API只允许捕获非敏感屏幕内容，不能捕获声音。要进行屏幕捕获，你的app必须要先发起一个对话框请求用户同意，此请求通过发送[createScreenCaptureIntent()](http://developer.android.com/reference/android/media/projection/MediaProjectionManager.html#createScreenCaptureIntent()) 方法产生的Intent实现。
 
-你可以查看示例项目的```MediaProjectionDemo```来学习如何使用新的API。（注：在SDK Manager里下载）。
+你可以查看示例项目的```MediaProjectionDemo```来学习如何使用新的API。
 
 
 ## 通知 ##
@@ -90,7 +87,7 @@ Android 5.0新增[android.media.projection](http://developer.android.com/referen
 
 Android 5.0通过关联在你的通知上的元数据对通知进行智能排序。你可以通过Notification.Builder的下面这些方法设置这些元数据：
 
-- [setCategory()](http://developer.android.com/reference/android/app/Notification.Builder.html#setCategory(java.lang.String)): 告诉系统当设备处于*优先*模式（比如这个通知表明来电、即时消息或者闹钟）时如何处理通知。
+- [setCategory()](http://developer.android.com/reference/android/app/Notification.Builder.html#setCategory(java.lang.String)): 告诉系统当设备处于*优先模式*（比如这个通知表明来电、即时消息或者闹钟）时如何处理通知。
 - [setPriority()](http://developer.android.com/reference/android/app/Notification.Builder.html#setPriority(int)): 标记此通知的重要程度——是否比普通通知要高或者低。拥有[PRIORITY_MAX](http://developer.android.com/reference/android/app/Notification.html#PRIORITY_MAX) 或者 [PRIORITY_HIGH](http://developer.android.com/reference/android/app/Notification.html#PRIORITY_HIGH) 级别的通知在**有声音或者振动**的情况下，会弹出一个浮动窗口。
 - [addPerson()](http://developer.android.com/reference/android/app/Notification.Builder.html#addPerson(java.lang.String)): 允许你添加一个或者多个与此通知相关联的人。这样系统可以根据不同的人把通知分开，并按人物重要性排序。
 
@@ -99,8 +96,6 @@ Android 5.0通过关联在你的通知上的元数据对通知进行智能排序
 ### 对OpenGL ES 3.1的支持 ###
 
 Android 5.0为OpenGL ES 3.1增加java接口和native支持。3.1重要的新增功能包括：
-
-(*正面几条不懂，找的别人的翻译*)
 
 - 计算着色器(Compute Shaders)
 - 独立的着色器对象
@@ -125,15 +120,16 @@ OpenGL ES 3.1 的java接口是[GLES31](http://developer.android.com/reference/an
 
 除了OpenGL ES 3.1，这个版本还提供了拥有java接口和native支持的扩展包以提供高级图形功能。这个扩展包作为一个独立的包发布
 
-In addition to OpenGL ES 3.1, this release provides an extension pack with Java interfaces and native support for advanced graphics functionality. These extensions are treated as a single package by Android. (If the ANDROID_extension_pack_es31a extension is present, your app can assume all extensions in the package are present and enable the shading language features with a single #extension statement.)
-
 扩展包支持:
+
+*这块儿不懂*
 
 Guaranteed fragment shader support for shader storage buffers, images, and atomics (Fragment shader support is optional in OpenGL ES 3.1.)
 Tessellation and geometry shaders
 ASTC (LDR) texture compression format
 Per-sample interpolation and shading
 Different blend modes for each color attachment in a frame buffer
+
 The Java interface for the extension pack is provided with GLES31Ext. In your app manifest, you can declare that your app must be installed only on devices that support the extension pack. For example:
 
 ```
@@ -199,7 +195,7 @@ Android 5.0扩展了*存储框架*（Storage Access Framework），用户可以�
 
 Android 5.0同时也引入了新的共享存储区上的package-specific目录，你可以在为里存储媒体文件，这些媒体文件可以被包含进[MediaStore](http://developer.android.com/reference/android/provider/MediaStore.html)里，新的 [getExternalMediaDirs()](http://developer.android.com/reference/android/content/Context.html#getExternalMediaDirs())方法返回你的app在所有共享存储设备上的媒体存储目录。像[getExternalFilesDir()](http://developer.android.com/reference/android/content/Context.html#getExternalFilesDir(java.lang.String))一样不需要特殊权限。系统会定时扫描这些文件夹中的媒体内容，当然你也可以使用[MediaScannerConnection](http://developer.android.com/reference/android/media/MediaScannerConnection.html)自行扫描新内容。*（大哥们不要把缓存的图片放这儿啊，~~好想把那些将缓存图片直接放到sd卡某个目录下的人拉出来打一顿~~）*
 
-## Wireless & Connectivity ##
+## 无线连接 ##
 
 ### 多网络连接（Multiple network connections） ###
 
@@ -214,7 +210,7 @@ Android 5.0支持新的多网络连接API以使你的app可以*根据特定功�
 
 ### 低功耗蓝牙 ###
 
-（*完全不懂……*）
+（*表示不懂……*）
 
 Android 4.3引入了对Bluetooth Low Energy (Bluetooth LE)的平台支持in the central role(咋理解)。从Android 5.0开始，Android设备可以像低功耗蓝牙外设一样了。应用可以使用些功能使得附近的设备探测到你的存在。比如说，你可以创建一个计步器应用或者健康状况监视应用并与另外一个低功耗蓝牙外设建立数据连接。
 
@@ -246,7 +242,7 @@ Android 5.0提供一个新的[JobScheduler](http://developer.android.com/referen
 - 应用有需要网络或者WIFI才能执行的任务。
 - 应用有一些要*定期统一执行*（run as a batch on a regular schedule）的任务。
 
-*一单位任务*（A unit of work）同一个[JobInfo](http://developer.android.com/reference/android/app/job/JobInfo.html)对象封装，这个对象指定了任务如何安排。
+*一批任务*（A unit of work）同一个[JobInfo](http://developer.android.com/reference/android/app/job/JobInfo.html)对象封装，这个对象指定了任务如何安排。
 
 使用[JobInfo.Builder](http://developer.android.com/reference/android/app/job/JobInfo.Builder.html)类来设置如何安排这些任务的运行时刻表，你可以安排任务在正面情况下运行，比如：
 
@@ -292,7 +288,7 @@ $ adb shell dumpsys batterystats --charged <package-name>
 
 ## Android在办公和教育中的应用 ##
 
-（*不知所云，一片胡扯*）
+（*不知所云，一片胡扯，译者处于昏迷状态*）
 
 ### Managed provisioning ###
 
@@ -314,7 +310,7 @@ Android 5.0 引入了可以部署```设备所有者```app的能力，```设备�
 
 ### 屏幕固定 ###
 
-Android 5.0 引入了新的屏幕固定API，可以让用户暂时限制在一个任务中无法离开，此时也不会被通知所干扰。如果你正在开发*一款教育应用以在Android支持高风险的评估要求或者目的单一的或者Kiosk应用程序*（an education app to support high stakes assessment requirements on Android, or a single-purpose or kiosk application.）的时候，你就可以考虑使用这个API。一旦你的app启动了屏幕固定，用户就将看不到通知、打开其他app或者返回桌面，直到退出这种模式。
+Android 5.0 引入了新的屏幕固定API，可以让用户暂时限制在一个任务中无法离开，此时也不会被通知所干扰。如果你正在开发*一款教育应用以在Android支持高风险的评估要求或者目的单一的或者Kiosk应用程序*（an education app to support high stakes assessment requirements on Android, or a single-purpose or kiosk application——*这啥意思，口吐白沫中*）的时候，你就可以考虑使用这个API。一旦你的app启动了屏幕固定，用户就将看不到通知、打开其他app或者返回桌面，直到退出这种模式。
 
 有两种方式启动屏幕固定：
 
@@ -368,23 +364,19 @@ Android 5.0为测试和可访问性增加如下支持：
 - 新的[executeShellCommand()](http://developer.android.com/reference/android/app/UiAutomation.html#executeShellCommand(java.lang.String))方法让你可以在instrumentation test中执行shell命令。类似于执行 adb shell，这样你可以使用一些shell工具比如```dumpsys, am, content``` 和``` pm```.
 - 使用accessibility APIs(比如[UiAutomator](http://developer.android.com/tools/help/uiautomator/index.html))的Accessibility Service和测试工具现在可以取得屏幕上能够进行可见交互的窗口的详细信息。要获得[AccessibilityWindowInfo](http://developer.android.com/reference/android/view/accessibility/AccessibilityWindowInfo.html)对象列表，请调用 [getWindows()](http://developer.android.com/reference/android/accessibilityservice/AccessibilityService.html#getWindows())方法。
 - 新的[AccessibilityNodeInfo.AccessibilityAction](http://developer.android.com/reference/android/view/accessibility/AccessibilityNodeInfo.AccessibilityAction.html)类让你可以在[AccessibilityNodeInfo](http://developer.android.com/reference/android/view/accessibility/AccessibilityNodeInfo.html)上执行标准的或者自定义的动作。新的 [AccessibilityNodeInfo.AccessibilityAction](http://developer.android.com/reference/android/view/accessibility/AccessibilityNodeInfo.AccessibilityAction.html)类取代了AccessibilityNodeInfo中的早期action API。
-- Android 5.0使你的app可以对文字转语音（text-to-speech synthesis）进行更细粒度的控制。有了新的Voice类，你的App可以通过指定地区, 质量和延迟率来设置声音。and text-to-speech engine-specific parameters。
+- Android 5.0使你的app可以对文字转语音（text-to-speech synthesis）进行更细粒度的控制。有了新的Voice类，你的App可以通过指定地区, 质量和延迟率来设置声音，也可以使用*文字转语音引擎相关的特定特性*（text-to-speech engine-specific parameters）。
 
 ## IME ##
 
-### Easier switching between input languages ###
+### 更容易地切换输入语言 ###
 
-Beginning in Android 5.0, users can more easily switch between all input method editors (IME) supported by the platform. Performing the designated switching action (usually touching a Globe icon on the soft keyboard) cycles through all such IMEs. This change in behavior is implemented by the shouldOfferSwitchingToNextInputMethod() method.
+这块不翻译了，标题说的很明确了，但是输入法右下角那个切换按钮总是误触好蛋疼啊~摔~
 
-In addition, the framework now checks whether the next IME includes a switching mechanism at all (and, thus, whether that IME supports switching to the IME after it). An IME with a switching mechanism will not cycle to an IME without one. This change in behavior is implemented by the switchToNextInputMethod() method.
-
-To see an example of how to use the updated IME-switching APIs, refer to the updated soft-keyboard implementation sample in this release. To learn more about how to implement switching between IMEs, see Creating an Input Method.
-
-## Manifest Declarations ##
+## Manifest 声明 ##
 
 ### Declarable required features ###
 
-The following values are now supported in the <uses-feature> element, so you can ensure that your app is installed only on devices that provide the features your app needs.
+下面的一些特性已经开始在```<uses-feature>```中支持，所以你可以确认你的app是否安装在支持你所需特性的设备上。
 
 - FEATURE_AUDIO_OUTPUT
 - FEATURE_CAMERA_CAPABILITY_MANUAL_POST_PROCESSING
@@ -405,6 +397,6 @@ The following values are now supported in the <uses-feature> element, so you can
 
 ### User permissions ###
 
-The following permission is now supported in the <uses-permission> element to declare the permissions your app requires to access certain APIs.
+现在```<uses-permission>```已经支持下面的权限，如果你需要的话就加上它吧。
 
-BIND_DREAM_SERVICE: When targeting API level 21 and higher, this permission is required by a Daydream service, to ensure that only the system can bind to it.
+BIND_DREAM_SERVICE: 如果目标API是21或更高, [Daydream](http://developer.android.com/about/versions/android-4.2.html#Daydream)服务需要使用这个权限。（When targeting API level 21 and higher, this permission is required by a Daydream service, to ensure that only the system can bind to it.）
