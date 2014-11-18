@@ -1,4 +1,4 @@
-在低版本Android系统上使用Material Design
+在低版本Android系统的上使用Material Design
 ===========================
 *By Chris Banes, Android Developer Relations*
 
