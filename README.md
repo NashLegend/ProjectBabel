@@ -9,12 +9,12 @@ ProjectBabel，这是一个翻译项目，持续更新中……
 - 对于某些字句段落不知道自己不知道的话，用正常文本格式，因为我不知道我不知道……
 
 下步计划：
+
 1. http://android-developers.blogspot.com/2014/10/material-design-on-android-checklist.html
 2. http://android-developers.blogspot.com/2014/10/implementing-material-design-in-your.html
 3. http://vinsol.com/blog/2014/11/04/communication-patterns-for-application-components/
 4. http://blog.sqisland.com/2014/10/first-look-at-animated-vector-drawable.html
 5. http://chrisrenke.com/drawerarrowdrawable/
 6. JobScheduler
+7. https://plus.google.com/+KirillGrouchnikov/posts/dKytdkK42hH
 
-
-https://plus.google.com/+KirillGrouchnikov/posts/dKytdkK42hH
