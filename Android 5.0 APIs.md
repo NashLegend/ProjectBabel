@@ -29,11 +29,10 @@ Android 5.0 ([LOLLIPOP](http://developer.android.com/intl/zh-cn/reference/androi
 
 Android 5.0 新增了material design样式的支持. 你可以通过material design创建具有自然的动态效果和过渡风格的app. 系统支持包括以下方面:
 
-- The material theme
 - 系统自带Material design主题
 - 组件阴影
 - RecyclerView组件以取代ListView
-- *Drawable动画和样式效果*。（这里应该是指Ripple Drawable）（Drawable animation and styling effects）
+- *Drawable动画和样式效果*。（这里应该是指Ripple Drawable之类）（Drawable animation and styling effects）
 - Material design风格的动画和activity过渡效果
 - *基于组件状态的Animator*。（Animators for view properties based on the state of the view）
 - 可定制的UI组件和工具栏（这里指的应该是ToolBar）
