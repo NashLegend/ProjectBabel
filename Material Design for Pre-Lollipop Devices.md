@@ -20,14 +20,14 @@ AppCompat（又叫ActionBarCompat）为4.0前的Android版本提供ActionBar后�
 
 下面是如何使用它
 
-#### Setup ####
+#### 开始使用 ####
 如果你使用Gradle，把appcompat加入到依赖库。修改你的build.gradle：
 ```
 dependencies {
 	compile "com.android.support:appcompat-v7:21.0.+"
 }
 ```
-##### New integration #####
+##### 如果你的App首次使用AppCompat #####
 
 如果你没用过AppCompat，那么下面教给你：
 
@@ -39,9 +39,8 @@ dependencies {
 For more information, see the Action Bar API guide which is a comprehensive guide on AppCompat.
 欲知更多更深入的知识，请看 [ActionBar指南](http://developer.android.com/guide/topics/ui/actionbar.html)
 
-##### Migration from previous setup #####
+##### 如果你的App之前就使用AppCompat #####
 
-For most apps, you now only need one theme declaration, in values/:
 对于大多数的应用来说，你只要在`values/`里声明一个主题就可以了：
 ```
 values/themes.xml:
@@ -60,7 +59,7 @@ values/themes.xml:
 
 完了你就可以把`values-v14+`的ActionBar样式移除了。
 
-#### Theming ####
+#### 设置主题 ####
 
 AppCompat has support for the new color palette theme attributes which allow you to easily customize your theme to fit your brand with primary and accent colors. For example:
 AppCompat已经支持新的[color palette theme](http://developer.android.com/training/material/theme.html#ColorPalette)属性，使用这些属性，你可以很轻易地讲你的应用色调与[primary and accent colors](http://www.google.com/design/spec/style/color.html#color-ui-color-application)搭配。举个栗子：
@@ -87,9 +86,9 @@ values/themes.xml:
 
 而在早期版本中，AppCompat会尽可能的模拟Material色彩主题。现阶段时能作用于ActionBar和某些组件上——也就是说，对于以前版本的Android系统来说，就算使用了AppCompat也不可能实现所有的Android 5.0样式。
 
-##### Widget tinting #####
+##### *Widget着色*（Widget tinting） #####
 
-当设备的版本在Android 5.0以上时，所有的组件都会使用我们刚才说的主题色调，这是因为Android 5.0支持正面这两种特性（5.0之前系统的悲剧）：drawable tinting和referencing theme attributes (of the form ?attr/foo) in drawables.
+当设备的版本在Android 5.0以上时，所有的组件都会使用我们刚才设置的主题颜色进行着色，这是因为Android 5.0支持正面这两种特性（5.0之前系统的悲剧）：*drawable着色*（drawable tinting）和在drawable中引用主题属性(使用?attr/xxx方式)。
 
 对于早期版本的Android系统，AppCompat为下列UI组件提供了类似的行为。
 
