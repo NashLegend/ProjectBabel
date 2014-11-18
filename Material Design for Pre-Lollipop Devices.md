@@ -12,7 +12,7 @@ Android 5.0已经发布，带来了新的Material Design，这种新的设计语
 
 #### What's new in AppCompat? ####
 
-AppCompat（aka ActionBarCompat）为4.0前的Android版本提供ActionBar后向兼容。而最新的AppCompat v21则可以提供Android 5.0特性支持。
+AppCompat（又叫ActionBarCompat）为4.0前的Android版本提供ActionBar后向兼容。而最新的AppCompat v21则可以提供Android 5.0特性支持。
 
 在这个版本中，Android引入了新的 [ToolBar](https://developer.android.com/reference/android/support/v7/widget/Toolbar.html)控件。类似于ActionBar,但是提供了更多的控制权和灵活性。ToolBar就像其他的普通控件一样，因此你可以容易地对其布局、执行动画以及与滚动事件交互。你也可以把它设置成你的Activity的ActionBar——就和原先的ActionBar一样使用。
 
