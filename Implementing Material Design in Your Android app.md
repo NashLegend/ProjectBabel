@@ -3,14 +3,14 @@ Implementing Material Design in Your Android app
 
 *译自 http://android-developers.blogspot.com/2014/10/implementing-material-design-in-your.html —— By [NashLegend](https://github.com/NashLegend)*
 
-![](http://i.imgur.com/n4RciRL.png)
+![](https://raw.githubusercontent.com/NashLegend/ProjectBabel/master/images/title1.png)
 
 [Material Design](http://www.google.com/design/spec/#utm_campaign=L-Developer-launch)对于多屏幕的视觉、交互和动作设计作了很大的改进。Android 5.0和最新的支持包可以帮助你创建Material风格的UI。这里将概述新的Material Design风格设计、新的API和组件，你可以将它们用在你的app中。
 
 ### Tangible surfaces ###
 
 在Material Design的世界中，UI是由[电子纸和电子墨水](https://www.youtube.com/watch?v=YaG_ljfzeUw)构建起来的。这些UI的表面和阴影为应用程序的结构提供视觉线索（也就是根据样式能看出层次关系等等，比如下图），你看他的样子就知道哪里是可触摸的部分、就可以知道它将以何种方式运动（同样如下图）。这种Didital Material可以移动、扩张和变形以创建灵活的UI界面。 
-![](http://i.imgur.com/NX5FkJL.gif)
+![](https://raw.githubusercontent.com/NashLegend/ProjectBabel/master/images/layering.gif)
 
 #### Shadows ####
 
@@ -39,7 +39,7 @@ Material utilises classic principles from print design to create clean, simple l
 Android 5.0 updates the system font Roboto to beautifully and clearly display text no matter the display size. A new medium weight has been added (android:fontFamily=”sans-serif-medium”) and new TextAppearance styles implement the recommended typographic scale for balancing content density and reading comfort. For instance you can easily use the ‘Title’ style by setting android:textAppearance=”@android:style/TextAppearance.Material.Title”. These styles are available on older platforms through the AppCompat support library, e.g. “@style/TextAppearance.AppCompat.Title”.
 
 #### Color ####
-![](http://i.imgur.com/sLeuM57.png)
+![](https://raw.githubusercontent.com/NashLegend/ProjectBabel/master/images/color_attribs.png)
 
 Your application’s color palette brings branding and personality to your app so we’ve made it simple to colorize UI controls by using the following theme attributes:
 
@@ -72,11 +72,11 @@ Palette.generateAsync(bitmap,
     }
 });
 ```
-![](http://i.imgur.com/TRsknV2.gif)
+![](https://raw.githubusercontent.com/NashLegend/ProjectBabel/master/images/palette2.gif)
 
 ### Authentic Motion ###
 Tangible surfaces don’t just appear out of nowhere like a jump-cut in a movie; they move into place helping to focus attention, establish spatial relationships and maintain continuity. Materials respond to touch to confirm your interaction and all changes radiate outward from your touch point. All motion is meaningful and intimate, aiding the user’s comprehension.
 
 #### Activity + Fragment Transitions ####
 By declaring ‘shared elements’ that are common across two screens you can create a smooth transition between the two states.
-![](https://raw.githubusercontent.com/NashLegend/SourceWall/master/app/src/main/res/drawable-xxhdpi/ic_launcher.png)
+![](https://raw.githubusercontent.com/NashLegend/ProjectBabel/master/images/activity_transitions.gif)
