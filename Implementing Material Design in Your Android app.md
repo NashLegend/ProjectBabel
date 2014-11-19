@@ -192,7 +192,7 @@ Material Design最后一个核心概念是创建一个单独的自适应设计�
 
 Toolbar是ActionBar模式的一般化形式，它提供相似的功能以及更高的灵活性。与标准的ActionBar不同，Toolbar就在你的view的结构层次中，你可以像操作其他的view完全一样的操作它。你可以使用Activity.setActionBar()方法让它变成你的ActionBar。
 
-![](https://raw.githubusercontent.com/NashLegend/ProjectBabel/master/images/contacts_toolbars)
+![](https://raw.githubusercontent.com/NashLegend/ProjectBabel/master/images/contacts_toolbars.png)
 
 在这个例子里，蓝色的Toolbar很高，被屏幕内容覆盖并且提供了一个导航按钮。注意另外两个Toolbar分别用在List和详细内容界面（说这么多无非是为了说明Toolbar很灵活）。
 
