@@ -80,3 +80,28 @@ Tangible surfaces don’t just appear out of nowhere like a jump-cut in a movie;
 #### Activity + Fragment Transitions ####
 By declaring ‘shared elements’ that are common across two screens you can create a smooth transition between the two states.
 ![](https://raw.githubusercontent.com/NashLegend/ProjectBabel/master/images/activity_transitions.gif)
+```
+album_grid.xml
+…
+    <ImageView
+        …
+        android:transitionName="@string/transition_album_cover" />
+album_details.xml
+…
+    <ImageView
+        …
+        android:transitionName="@string/transition_album_cover" />
+
+AlbumActivity.java
+Intent intent = new Intent();
+String transitionName = getString(R.string.transition_album_cover);
+…
+ActivityOptionsCompat options =
+ActivityOptionsCompat.makeSceneTransitionAnimation(activity,
+    albumCoverImageView,   // The view which starts the transition
+    transitionName    // The transitionName of the view we’re transitioning to
+    );
+ActivityCompat.startActivity(activity, intent, options.toBundle());
+```
+
+Here we define the same transitionName in two screens. When starting the new Activity and this transition is animated automatically. In addition to shared elements, you can now also choreograph entering and exiting elements.
