@@ -32,28 +32,28 @@ Implementing Material Design in Your Android app
 ```
 CardView继承了FrameLayout并提供了默认的elevation和圆角，这样卡片在不同版本的系统上就拥有统一的表现。如有必要，你还可以通过设置`cardElevation`和`cardCornerRadius`自定义这些属性。但是卡片并不是实现*维度效果*的不二法门，所以别滥用。
 
-### Print-like Design ###
-Material utilises classic principles from print design to create clean, simple layouts that put your content front and center. Bold deliberate color choices, intentional whitespace, tasteful typography and a strong baseline grid create hierarchy, meaning and focus.
+### *印刷样式的设计*（Print-like Design） ###
+Material Design借鉴了印刷设计以创建简明清晰的布局，将你的内容部分突出在前面和中间。大胆的配色、刻意的留白、精致的排版和*强大的基线网格*（a strong baseline grid）产生了具有层次感、有意义、突出重点的布局.
 
-#### Typography ####
-Android 5.0 updates the system font Roboto to beautifully and clearly display text no matter the display size. A new medium weight has been added (android:fontFamily=”sans-serif-medium”) and new TextAppearance styles implement the recommended typographic scale for balancing content density and reading comfort. For instance you can easily use the ‘Title’ style by setting android:textAppearance=”@android:style/TextAppearance.Material.Title”. These styles are available on older platforms through the AppCompat support library, e.g. “@style/TextAppearance.AppCompat.Title”.
+#### 字体排版 ####
+Android 5.0升级了系统Roboto字体，现在无论字体大小，都可以漂亮整洁地显示字体。系统还新增了一个新的适用于中等字号(android:fontFamily=”sans-serif-medium”)，新的文本显示样式使用了备受好评的[字体排版缩放](http://www.google.com/design/spec/style/typography.html#typography-standard-styles)以平衡内容密度的阅读舒适度。举个栗子：你可以通过设置`android:textAppearance=”@android:style/TextAppearance.Material.Title”`轻松地使用"Title"样式，可以通过AppCompat支持包在旧版本的Android系统上使用这种样式，举个栗子：`“@style/TextAppearance.AppCompat.Title”`。
 
 #### Color ####
 ![](https://raw.githubusercontent.com/NashLegend/ProjectBabel/master/images/color_attribs.png)
 
-Your application’s color palette brings branding and personality to your app so we’ve made it simple to colorize UI controls by using the following theme attributes:
+应用的[*色调*(color palette)](http://www.google.com/design/spec/style/color.html#color-ui-color-application)会为你的应用带来品牌辨识度和个性化（比如一看见红色就想到可口可乐），现在你们可以通过设置下面的属性使得这些变得更加简单。
 
-- colorPrimary. The primary branding color for the app; used as the action bar background, recents task title and in edge effects.
-- colorAccent. Vibrant complement to the primary branding color. Applied to framework controls such as EditText and Switch.
-- colorPrimaryDark. Darker variant of the primary branding color; applied to the status bar.
+- colorPrimary. 应用的主色调、品牌颜色，用于ActionBar背景、最近运行任务界面标题以及边缘效果（比如说MIUI系统中可滚动元素滚动到边缘时出现的橙黄色）。
+- colorAccent. *主色调的鲜亮补充色*（Vibrant complement to the primary branding color），用于框架控件比如说EditText和Switch。（前面几句真别扭，因此注：colorAccent，我不知道专业术语是啥，直译应该是突出出来的颜色，因此，EditText的颜色并不是colorAccent，它得到焦点后的颜色才是colorAccent，还有Switch在打开时的颜色也是colorAccent，如上图）。
+- colorPrimaryDark. 主色调的暗色版本，用于状态栏。
 
-Further attributes give fine grained control over colorizing controls, see: `colorControlNormal, colorControlActivated, colorControlHighlight, colorButtonNormal, colorSwitchThumbNormal, colorEdgeEffect, statusBarColor `和` navigationBarColor.`
+除了上面这些之外，你还可以对颜色进行更深入精细的控制，参见`colorControlNormal, colorControlActivated, colorControlHighlight, colorButtonNormal, colorSwitchThumbNormal, colorEdgeEffect, statusBarColor `和` navigationBarColor`。
 
-AppCompat provides a large subset of the functionality above, allowing you to colorize controls on pre-Lollipop platforms.
+AppCompat支持上面功能的绝大部分，因此你可以将此应用在Android 5.0之前的系统中。
 
-#### Dynamic color ####
+#### Dynamic color —— 动态颜色 ####
  
-Material Design encourages dynamic use of color, especially when you have rich images to work with. The new Palette support library lets you extract a small set of colors from an image to style your UI controls to match; creating an immersive experience. The extracted palette will include vibrant and muted tones as well as foreground text colors for optimal legibility. For example:
+Material Design鼓励使用动态颜色，尤其是你的应用中有很多图片时。新的Palette支持库可以提取图片中的一部分颜色来设置你的UI的样式来使界面颜色互相搭配以提供一种沉浸式体验。提取出来的*调色板*（palette）包括*突出的和柔和的色调*（vibrant and muted tones，参见下图文字后面变化的背景色），同时可取得最佳阅读体验的文本前景色（参见下图的变化的文字颜色）。举个栗子：
 ```
 Palette.generateAsync(bitmap,
         new Palette.PaletteAsyncListener() {
@@ -72,14 +72,23 @@ Palette.generateAsync(bitmap,
     }
 });
 ```
+一图胜千言。
 ![](https://raw.githubusercontent.com/NashLegend/ProjectBabel/master/images/palette2.gif)
 
-### Authentic Motion ###
-Tangible surfaces don’t just appear out of nowhere like a jump-cut in a movie; they move into place helping to focus attention, establish spatial relationships and maintain continuity. Materials respond to touch to confirm your interaction and all changes radiate outward from your touch point. All motion is meaningful and intimate, aiding the user’s comprehension.
+### Authentic Motion —— 真实的运动###
 
-#### Activity + Fragment Transitions ####
-By declaring ‘shared elements’ that are common across two screens you can create a smooth transition between the two states.
+Tangible surfaces不会突兀地出现，他们出现的动作要引导用户注意力，要建立空间关联并保持连贯性。Material元素会对你的触摸事件做出响应以对本次交互进行确认，然后所有的变化将以你点击的位置为中心向外扩散。所有的动作都是有意义的和密切相关的，使用户易于理解。
+
+#### Activity 和 Fragment 切换 ####
+通过声明两屏之间通用的`共享元素`，你可以在两种状态间创建流畅的切换。
+
+
+一图胜千言：
+
 ![](https://raw.githubusercontent.com/NashLegend/ProjectBabel/master/images/activity_transitions.gif)
+
+示例代码：
+
 ```
 album_grid.xml
 …
@@ -104,13 +113,13 @@ ActivityOptionsCompat.makeSceneTransitionAnimation(activity,
 ActivityCompat.startActivity(activity, intent, options.toBundle());
 ```
 
-Here we define the same transitionName in two screens. When starting the new Activity and this transition is animated automatically. In addition to shared elements, you can now also choreograph entering and exiting elements.
+我们在两屏之间定义了相同的`transitionName`。当打开新的Activity的时候，切换过程就自动开始了。除了共享元素之外，你也可以定义[进入](https://developer.android.com/reference/android/view/Window.html?utm_campaign=L-Developer-launch#setEnterTransition(android.transition.Transition))和[退出](https://developer.android.com/reference/android/view/Window.html?utm_campaign=L-Developer-launch#setExitTransition(android.transition.Transition))元素。
 
-#### Ripples ####
+#### Ripples ——波纹效果####
 
 ![](https://raw.githubusercontent.com/NashLegend/ProjectBabel/master/images/ripple.gif)
 
-Materials respond to users’ touch with an ink ripple surface reaction. Interactive controls such as Buttons exhibit this behaviour by default when you use or inherit from Theme.Material (as will ?android:selectableItemBackground). You can add this feedback to your own drawables by simply wrapping them in a ripple element:
+Material风格的元素以一种波纹(ripple)扩散的方式响应用户的触摸。如果你使用了Theme.Material或者其派生的主题，那么交互性控件比如Button默认就会拥有这种效果（as will ?android:selectableItemBackground）。你也可以在你的drawable上使用这种效果——只要把它们放到ripple元素里，如下：
 ```
 <ripple
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -123,4 +132,47 @@ Materials respond to users’ touch with an ink ripple surface reaction. Interac
     </item>
 </ripple>
 ```
-Custom views should propagate touch location down to their drawables in the View#drawableHotspotChanged callback so that the ripple can start from the touch point.
+
+自定义view通过[View#drawableHotspotChanged](http://developer.android.com/reference/android/view/View.html?utm_campaign=L-Developer-launch#drawableHotspotChanged(float,%20float))回调方法将点击位置传递过去，以便从点击的位置发起ripple效果。
+
+#### StateListAnimator ####
+Materials also respond to touch by raising up to meet your finger, like a magnetic attraction. You can achieve this effect by animating the translationZ attribute which is analogous to elevation but intended for transient use; such that Z = elevation + translationZ. The new stateListAnimator attribute allows you to easily animate the translationZ on touch (Buttons do this by default):
+```
+layout/your_layout.xml
+<ImageButton …
+    android:stateListAnimator="@anim/raise" />
+anim/raise.xml
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="true" android:state_pressed="true">
+        <objectAnimator
+            android:duration="@android:integer/config_shortAnimTime"
+            android:propertyName="translationZ"
+            android:valueTo="@dimen/touch_raise"
+            android:valueType="floatType" />
+    </item>
+    <item>
+        <objectAnimator
+            android:duration="@android:integer/config_shortAnimTime"
+            android:propertyName="translationZ"
+            android:valueTo="0dp"
+            android:valueType="floatType" />
+    </item>
+</selector>
+```
+
+#### Reveal ####
+A hallmark material transition for showing new content is to reveal it with an expanding circular mask. This helps to reinforce the user’s touchpoint as the start of all transitions, with its effects radiating outward radially. You can implement this using the following Animator:
+```
+Animator reveal = ViewAnimationUtils.createCircularReveal(
+                    viewToReveal, // The new View to reveal
+                    centerX,      // x co-ordinate to start the mask from
+                    centerY,      // y co-ordinate to start the mask from
+                    startRadius,  // radius of the starting mask
+                    endRadius);   // radius of the final mask
+reveal.start();
+```
+
+Interpolators
+Motion should be deliberate, swift and precise. Unlike typical ease-in-ease-out transitions, in Material Design, objects tend to start quickly and ease into their final position. Over the course of the animation, the object spends more time near its final destination. As a result, the user isn’t left waiting for the animation to finish, and the negative effects of motion are minimized. A new fast-in-slow-out interpolator has been added to achieve this motion.
+![](https://raw.githubusercontent.com/NashLegend/ProjectBabel/master/images/interpolators.gif)
+For elements entering and exiting the screen (which [should do so at peak velocity](http://www.google.com/design/spec/animation/authentic-motion.html#authentic-motion-mass-weight)), check out the [linear-out-slow-in](https://developer.android.com/reference/android/R.interpolator.html?utm_campaign=L-Developer-launch#linear_out_slow_in) and [fast-out-linear-in](https://developer.android.com/reference/android/R.interpolator.html?utm_campaign=L-Developer-launch#fast_out_linear_in) interpolators respectively.
