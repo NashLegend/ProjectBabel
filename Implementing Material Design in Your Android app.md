@@ -1,4 +1,4 @@
-Implementing Material Design in Your Android app
+在你的Android应用中使用Material Design
 ==============
 
 *译自 http://android-developers.blogspot.com/2014/10/implementing-material-design-in-your.html —— By [NashLegend](https://github.com/NashLegend)*
@@ -136,7 +136,10 @@ Material风格的元素以一种波纹(ripple)扩散的方式响应用户的触�
 自定义view通过[View#drawableHotspotChanged](http://developer.android.com/reference/android/view/View.html?utm_campaign=L-Developer-launch#drawableHotspotChanged(float,%20float))回调方法将点击位置传递过去，以便从点击的位置发起ripple效果。
 
 #### StateListAnimator ####
-Materials also respond to touch by raising up to meet your finger, like a magnetic attraction. You can achieve this effect by animating the translationZ attribute which is analogous to elevation but intended for transient use; such that Z = elevation + translationZ. The new stateListAnimator attribute allows you to easily animate the translationZ on touch (Buttons do this by default):
+当你触摸Material元素的时候，它也可以[抬起（链接里的Lift on touch）](http://www.google.com/design/spec/animation/responsive-interaction.html#responsive-interaction-material-response)以迎合你的手指，就像磁铁异性相吸一样。你可以通过translationZ属性动画来实现这种效果，translationZ属性与elevation相似，不过它的主要作用是做这些过渡效果。 Z = elevation + translationZ. 新的stateListAnimator属性轻松创建触摸时的Z轴动画(Buttons默认就有这效果):
+
+示例代码：
+
 ```
 layout/your_layout.xml
 <ImageButton …
@@ -161,7 +164,8 @@ anim/raise.xml
 ```
 
 #### Reveal ####
-A hallmark material transition for showing new content is to reveal it with an expanding circular mask. This helps to reinforce the user’s touchpoint as the start of all transitions, with its effects radiating outward radially. You can implement this using the following Animator:
+
+Material风格的app显示新内容的一个典型过渡效果是一个向外扩散的圆形遮罩。过渡动画以用户点击位置为圆心发起并[向外扩散](http://www.google.com/design/spec/animation/responsive-interaction.html#responsive-interaction-radial-action)，你可以使用下面这种Animator来实现：
 ```
 Animator reveal = ViewAnimationUtils.createCircularReveal(
                     viewToReveal, // The new View to reveal
@@ -172,7 +176,27 @@ Animator reveal = ViewAnimationUtils.createCircularReveal(
 reveal.start();
 ```
 
-Interpolators
-Motion should be deliberate, swift and precise. Unlike typical ease-in-ease-out transitions, in Material Design, objects tend to start quickly and ease into their final position. Over the course of the animation, the object spends more time near its final destination. As a result, the user isn’t left waiting for the animation to finish, and the negative effects of motion are minimized. A new fast-in-slow-out interpolator has been added to achieve this motion.
+#### Interpolators —— 插值器 ####
+动作应该是合理的（deliberate）、迅速的、精确的。与普通的缓动效果不同的是，在Material Design里，物体倾向于快速开始然后缓动到最终位置。在动画过程中，物体在最终位置附近时的运动使用了更多的时间，因此用户不必要为了等待动画结束花费更多时间，动画的负面效果被降到最低。这种动作使用的是一个新的快进慢出的[插值器](https://developer.android.com/reference/android/R.interpolator.html?utm_campaign=L-Developer-launch#fast_out_slow_in)。
+
+下面是一图胜千言时间：
 ![](https://raw.githubusercontent.com/NashLegend/ProjectBabel/master/images/interpolators.gif)
-For elements entering and exiting the screen (which [should do so at peak velocity](http://www.google.com/design/spec/animation/authentic-motion.html#authentic-motion-mass-weight)), check out the [linear-out-slow-in](https://developer.android.com/reference/android/R.interpolator.html?utm_campaign=L-Developer-launch#linear_out_slow_in) and [fast-out-linear-in](https://developer.android.com/reference/android/R.interpolator.html?utm_campaign=L-Developer-launch#fast_out_linear_in) interpolators respectively.
+
+对于进入和离开屏幕的元素(which [should do so at peak velocity](http://www.google.com/design/spec/animation/authentic-motion.html#authentic-motion-mass-weight))，分别使用[linear-out-slow-in](https://developer.android.com/reference/android/R.interpolator.html?utm_campaign=L-Developer-launch#linear_out_slow_in) 分 [fast-out-linear-in](https://developer.android.com/reference/android/R.interpolator.html?utm_campaign=L-Developer-launch#fast_out_linear_in) 插值器。
+
+### Adaptive design —— 自适应设计###
+
+Material Design最后一个核心概念是创建一个单独的自适应设计布局就可以适配小到手表大到电视的所有尺寸和形状（手表有圆有方）。自适应设计设计技术帮助我们实现用同一个系统在不同设备上展示不同的外观。每个view都会自适应不同设备的尺寸的交互方式。 颜色、iconography,、层次、空间关系保持不变。Material Design系统提供了灵活的组件和模式以帮助你做到这一点。
+
+#### Toolbar ####
+
+Toolbar是ActionBar模式的一般化形式，它提供相似的功能以及更高的灵活性。与标准的ActionBar不同，Toolbar就在你的view的结构层次中，你可以像操作其他的view完全一样的操作它。你可以使用Activity.setActionBar()方法让它变成你的ActionBar。
+
+![](https://raw.githubusercontent.com/NashLegend/ProjectBabel/master/images/contacts_toolbars)
+
+在这个例子里，蓝色的Toolbar很高，被屏幕内容覆盖并且提供了一个导航按钮。注意另外两个Toolbar分别用在List和详细内容界面（说这么多无非是为了说明Toolbar很灵活）。
+
+欲知更多Toolbar的使用方式，看[这里]https://github.com/NashLegend/ProjectBabel/blob/master/Material%20Design%20for%20Pre-Lollipop%20Devices.md)。
+
+#### 开始让你的应用Material化吧 ####
+Material Design帮助你创建易于理解的、漂亮的、自适应的、动起来的活的应用。希望这篇文章能让你动心并将Material Design应用到了你的app里。
