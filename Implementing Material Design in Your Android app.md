@@ -196,7 +196,7 @@ Toolbar是ActionBar模式的一般化形式，它提供相似的功能以及更�
 
 在这个例子里，蓝色的Toolbar很高，被屏幕内容覆盖并且提供了一个导航按钮。注意另外两个Toolbar分别用在List和详细内容界面（说这么多无非是为了说明Toolbar很灵活）。
 
-欲知更多Toolbar的使用方式，看[这里]https://github.com/NashLegend/ProjectBabel/blob/master/Material%20Design%20for%20Pre-Lollipop%20Devices.md)。
+欲知更多Toolbar的使用方式，看[这里](https://github.com/NashLegend/ProjectBabel/blob/master/Material%20Design%20for%20Pre-Lollipop%20Devices.md)。
 
 #### 开始让你的应用Material化吧 ####
 Material Design帮助你创建易于理解的、漂亮的、自适应的、动起来的活的应用。希望这篇文章能让你动心并将Material Design应用到你的app里。
