@@ -12,7 +12,7 @@
 在Material Design的世界中，UI是由[电子纸和电子墨水](https://www.youtube.com/watch?v=YaG_ljfzeUw)构建起来的。这些UI的表面和阴影为应用程序的结构提供视觉线索（也就是根据样式能看出层次关系等等，比如下图），你看他的样子就知道哪里是可触摸的部分、就可以知道它将以何种方式运动（同样如下图）。这种Didital Material可以移动、扩张和变形以创建灵活的UI界面。 
 ![](https://raw.githubusercontent.com/NashLegend/ProjectBabel/master/images/layering.gif)
 
-#### Shadows ####
+#### 阴影 ####
 
 一个surface的位置和深度决定了其光影的微妙变化。你可以使用新的elevation属性设置view在Z轴的位置，系统会依此在view后自动绘制出实时的动态阴影。你可以在layout XML里面设置elevation属性，单位是dip：
 ```
@@ -38,7 +38,7 @@ Material Design借鉴了印刷设计以创建简明清晰的布局，将你的�
 #### 字体排版 ####
 Android 5.0升级了系统Roboto字体，现在无论字体大小，都可以漂亮整洁地显示字体。系统还新增了一个新的适用于中等字号(android:fontFamily=”sans-serif-medium”)，新的文本显示样式使用了备受好评的[字体排版缩放](http://www.google.com/design/spec/style/typography.html#typography-standard-styles)以平衡内容密度的阅读舒适度。举个栗子：你可以通过设置`android:textAppearance=”@android:style/TextAppearance.Material.Title”`轻松地使用"Title"样式，可以通过AppCompat支持包在旧版本的Android系统上使用这种样式，举个栗子：`“@style/TextAppearance.AppCompat.Title”`。
 
-#### Color ####
+#### 颜色 ####
 ![](https://raw.githubusercontent.com/NashLegend/ProjectBabel/master/images/color_attribs.png)
 
 应用的[*色调*(color palette)](http://www.google.com/design/spec/style/color.html#color-ui-color-application)会为你的应用带来品牌辨识度和个性化（比如一看见红色就想到可口可乐），现在你们可以通过设置下面的属性使得这些变得更加简单。
@@ -163,7 +163,7 @@ anim/raise.xml
 </selector>
 ```
 
-#### Reveal ####
+#### Reveal —— 打开内容 ####
 
 Material风格的app显示新内容的一个典型过渡效果是一个向外扩散的圆形遮罩。过渡动画以用户点击位置为圆心发起并[向外扩散](http://www.google.com/design/spec/animation/responsive-interaction.html#responsive-interaction-radial-action)，你可以使用下面这种Animator来实现：
 ```
