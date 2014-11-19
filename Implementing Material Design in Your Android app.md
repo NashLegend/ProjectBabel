@@ -44,7 +44,7 @@ Android 5.0升级了系统Roboto字体，现在无论字体大小，都可以漂
 应用的[*色调*(color palette)](http://www.google.com/design/spec/style/color.html#color-ui-color-application)会为你的应用带来品牌辨识度和个性化（比如一看见红色就想到可口可乐），现在你们可以通过设置下面的属性使得这些变得更加简单。
 
 - colorPrimary. 应用的主色调、品牌颜色，用于ActionBar背景、最近运行任务界面标题以及边缘效果（比如说MIUI系统中可滚动元素滚动到边缘时出现的橙黄色）。
-- colorAccent. *主色调的鲜亮补充色*（Vibrant complement to the primary branding color），用于框架控件比如说EditText和Switch。（前面几句真别扭，因此注：colorAccent，我不知道专业术语是啥，直译应该是突出出来的颜色，因此，EditText的颜色并不是colorAccent，它得到焦点后的颜色才是colorAccent，还有Switch在打开时的颜色也是colorAccent，如上图）。
+- colorAccent. *主色调的鲜亮补充色*（Vibrant complement to the primary branding color），用于框架控件比如说EditText和Switch。（前面几句真别扭，因此注：colorAccent，不知道专业术语是啥，直译应该是突出的颜色，因此，EditText的颜色并不是colorAccent，它得到焦点后的颜色才是colorAccent，还有Switch在打开时的颜色也是colorAccent，如上图）。
 - colorPrimaryDark. 主色调的暗色版本，用于状态栏。
 
 除了上面这些之外，你还可以对颜色进行更深入精细的控制，参见`colorControlNormal, colorControlActivated, colorControlHighlight, colorButtonNormal, colorSwitchThumbNormal, colorEdgeEffect, statusBarColor `和` navigationBarColor`。
