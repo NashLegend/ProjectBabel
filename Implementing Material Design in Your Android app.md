@@ -105,3 +105,5 @@ ActivityCompat.startActivity(activity, intent, options.toBundle());
 ```
 
 Here we define the same transitionName in two screens. When starting the new Activity and this transition is animated automatically. In addition to shared elements, you can now also choreograph entering and exiting elements.
+
+#### Ripples ####
