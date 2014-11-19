@@ -107,3 +107,20 @@ ActivityCompat.startActivity(activity, intent, options.toBundle());
 Here we define the same transitionName in two screens. When starting the new Activity and this transition is animated automatically. In addition to shared elements, you can now also choreograph entering and exiting elements.
 
 #### Ripples ####
+
+![](https://raw.githubusercontent.com/NashLegend/ProjectBabel/master/images/ripple.gif)
+
+Materials respond to users’ touch with an ink ripple surface reaction. Interactive controls such as Buttons exhibit this behaviour by default when you use or inherit from Theme.Material (as will ?android:selectableItemBackground). You can add this feedback to your own drawables by simply wrapping them in a ripple element:
+```
+<ripple
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/accent_dark">
+    <item>
+        <shape
+            android:shape="oval">
+            <solid android:color="?android:colorAccent" />
+        </shape>
+    </item>
+</ripple>
+```
+Custom views should propagate touch location down to their drawables in the View#drawableHotspotChanged callback so that the ripple can start from the touch point.
