@@ -13,7 +13,6 @@ ProjectBabel
 下步计划：
 
 1. http://android-developers.blogspot.com/2014/10/material-design-on-android-checklist.html
-3. http://vinsol.com/blog/2014/11/04/communication-patterns-for-application-components/
 4. http://blog.sqisland.com/2014/10/first-look-at-animated-vector-drawable.html
 5. http://chrisrenke.com/drawerarrowdrawable/
 7. https://plus.google.com/+KirillGrouchnikov/posts/dKytdkK42hH
