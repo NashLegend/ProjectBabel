@@ -10,10 +10,3 @@ ProjectBabel
 - 对于一大片的句子段落不懂得如何翻译的，直接原文扔那儿……
 - 对于某些字句段落不知道自己不知道的话，用正常文本格式，因为我不知道我不知道……
 
-下步计划：
-
-1. http://android-developers.blogspot.com/2014/10/material-design-on-android-checklist.html
-4. http://blog.sqisland.com/2014/10/first-look-at-animated-vector-drawable.html
-5. http://chrisrenke.com/drawerarrowdrawable/
-7. https://plus.google.com/+KirillGrouchnikov/posts/dKytdkK42hH
-
