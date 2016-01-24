@@ -10,7 +10,3 @@ ProjectBabel
 - 对于一大片的句子段落不懂得如何翻译的，直接原文扔那儿……
 - 对于某些字句段落不知道自己不知道的话，用正常文本格式，因为我不知道我不知道……
 
-Next
-https://medium.com/google-developers/developing-for-android-introduction-5345b451567c
-coming soon
-
